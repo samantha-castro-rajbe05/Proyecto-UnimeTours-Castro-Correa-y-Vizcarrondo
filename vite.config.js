@@ -3,7 +3,6 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  css: {
-    postcss: './postcss.config.cjs'
-  }
+  root: "./", // Debe apuntar a la raíz del proyecto
+  
 });
