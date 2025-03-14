@@ -12,7 +12,9 @@ export const App = () => {
     return (
         <div className="font-serif">
             <img src="/UnimeTours-landing-page.jpg" className="absolute -z-10 inset-0 w-full object-cover"/>
-            <h2 className="text-7xl text-white">UnimeTours</h2>
+            <div className="relative z-10 flex justify-center items-center h-full">
+                <h2 className="text-7xl text-white font-bold font-serif montserrat mt-60" >UnimeTours</h2>
+            </div>
         </div>
     );
 };

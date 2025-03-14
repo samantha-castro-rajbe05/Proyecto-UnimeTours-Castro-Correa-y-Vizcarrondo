@@ -17,7 +17,7 @@ const Navbar = () => {
       
       <div className="nav-right">
         <a href="#naturaleza">Naturalera</a>
-        <a href="#contacto">Contácctanos</a>
+        <a href="#contacto">Contáctanos</a>
       </div>
     </nav>
   );
