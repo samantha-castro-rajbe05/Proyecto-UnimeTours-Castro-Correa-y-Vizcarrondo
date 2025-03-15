@@ -1,24 +1,52 @@
-import React from 'react';
-import './Navbar.css'; 
+import React, { useState } from 'react';
 
-const Navbar = () => {
+export const Navbar = () => {
+  const [menuVisible, setMenuVisible] = useState(false);
+  const [menuClicked, setMenuClicked] = useState(false);
+
+  const handleMouseEnter = () => {
+    setMenuVisible(true);
+  };
+
+  const handleMouseLeave = () => {
+    if (!menuClicked) {
+      setMenuVisible(false);
+    }
+  };
+
+  const handleClick = () => {
+    setMenuClicked(!menuClicked);
+    setMenuVisible(!menuClicked);
+  };
+
   return (
-    <nav className="navbar">
-      <div className="nav-left">
-        <a href="#rutas">Rutas</a>
-        <a href="#galeria">Galería</a>
-        <a href="#feedback">Feedback</a>
-        <a href="#blog">Blog</a>
-      </div>
-      
-      <div className="nav-center">
-        <a href="#home" className="logo">UNIMETOURS</a>
-      </div>
-      
-      <div className="nav-right">
-        <a href="#naturaleza">Naturalera</a>
-        <a href="#contacto">Contáctanos</a>
-      </div>
+    <nav className="bg-[#143A27] p-4 rounded-[20px] h-10 mt-4 mx-4 abosolute z-10">
+      <div className="container mx-auto flex justify-between items-center h-full">
+        <div className="flex space-x-4 text-sm">
+          <a href="#rutas" className="text-[#D4D9D8] hover:text-gray-400">Rutas</a>
+          <a href="#galeria" className="text-[#D4D9D8] hover:text-gray-400">Galería</a>
+          <a href="#feedback" className="text-[#D4D9D8] hover:text-gray-400">Feedback</a>
+          <a href="#blog" className="text-[#D4D9D8] hover:text-gray-400">Blog</a>
+        </div>
+        
+        <div className="flex justify-center items-center">
+          <img src="unimetours-logo.png" alt="UnimeTours Logo" className="h-10"/>
+        </div>
+        
+        <div className="flex items-center space-x-4 text-sm">
+          <a href="#naturaleza" className="text-[#D4D9D8] hover:text-gray-400">Naturaleza</a>
+          <a href="#contacto" className="text-[#D4D9D8] hover:text-gray-400">Contáctanos</a>
+          <div className="relative" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+          <img src="Group 1.png" alt="Icono perfil" className="h-8 cursor-pointer" onClick={handleClick}/>
+          {menuVisible && (
+              <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-20">
+                <a href="#login" className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Iniciar sesión</a>
+                <a href="#register" className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Registrarse</a>
+                </div>
+            )}
+        </div>
+        </div> 
+        </div>
     </nav>
   );
 };
