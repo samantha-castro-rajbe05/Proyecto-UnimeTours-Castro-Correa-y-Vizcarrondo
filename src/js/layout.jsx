@@ -4,6 +4,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { App } from "./views/App.jsx";
 import injectContext from "./store/appContext.jsx";
 import Navbar from "./components/navbar.jsx";
+import Login from "./components/login-signup/login.jsx";
+import Signup from "./components/login-signup/signup.jsx";
 
 
 const Layout = () => {
@@ -23,6 +25,25 @@ const Layout = () => {
                         </>
                     }
                 />
+                <Route
+                    path="/login"
+                    element={
+                        <>
+                            <Login />
+                        </>
+                    }
+                />
+
+                <Route
+                    path="/signup"
+                    element={
+                        <>
+                            <Signup />
+                        </>
+                    }
+                />
+
+                
             </Routes>
         </BrowserRouter>
     );
