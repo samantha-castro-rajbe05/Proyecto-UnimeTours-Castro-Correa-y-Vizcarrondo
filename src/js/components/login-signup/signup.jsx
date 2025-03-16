@@ -38,7 +38,7 @@ const Signup = () => {
       setEmail(value);
   
       const regex = /^[a-zA-Z0-9._%+-]+@(correo\.unimet\.edu\.ve|unimet\.edu\.ve)$/;
-      
+
       if (value === '') {
         setEmailError('');
       } else if (regex.test(value)) {
@@ -80,7 +80,7 @@ const Signup = () => {
                 <div>
                     <Label title="Email" htmlFor="email"/>
                     <input 
-                    type="text" 
+                    type="email" 
                     name="email" 
                     placeholder='uni.correo@correo.unimet.edu.ve' 
                     className="block w-full rounded-md border border-white py-0.5 text-black rounded-[20px] shadow-sm outline-white sm:text-sm sm-leading-6 px-4"
@@ -91,7 +91,15 @@ const Signup = () => {
                 </div>
                 <div>
                     <Label title="Contraseña" htmlFor="contraseña"/>
-                    <input type="text" name="contraseña" placeholder='Ingrese su contraseña' className="block w-full rounded-md border border-white py-0.5 text-black rounded-[20px] shadow-sm outline-white sm:text-sm sm-leading-6 px-4"/>
+                    <input type="password" name="contraseña" placeholder='Ingrese su contraseña' className="block w-full rounded-md border border-white py-0.5 text-black rounded-[20px] shadow-sm outline-white sm:text-sm sm-leading-6 px-4"/>
+                    <div className='mt-2 flex items-center gap-x-3'>
+                        <div className='flex-1'>
+                            <Label title="Cover photo"/>
+                            <div className='mt-2 flex items-center justify-center border border-dashed py-4 px-6 rounded-lg border-white'>
+                                <div></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
           </div>
