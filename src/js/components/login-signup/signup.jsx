@@ -7,14 +7,27 @@ import { PhotoIcon } from "@heroicons/react/24/solid";
 
 const Signup = () => {
   const [login, setLogin] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [errMsg, setErrMsg] = useState("");
+  const [avatar, setAvatar] = useState({file:null, url:"",});
+
   const [telefono, setTelefono] = useState("+58");
   const [telefonoError, setTelefonoError] = useState("");
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
 
-  const handleSignup = () => {};
+  const handleSignup = (e) => {
+    e.preventDefault();
+  };
 
-  const handleAvatar = () => {};
+  const handleAvatar = (e) => {
+    if (e.target.files[0]) {
+      setAvatar({
+        file: e.target.files[0],
+        url: URL.createObjectURL(e.target.files[0]),
+      });
+    }
+  };
 
   const handleTelefonoChange = (e) => {
     const value = e.target.value;
@@ -134,10 +147,13 @@ const Signup = () => {
                     <div className="mt-1 flex items-center justify-center border border-dashed py-4 px-6 rounded-lg border-white">
                       <div className="text-center flex flex-col items-center">
                         <div className="w-14 h-14 border border-[#BDC2C1] rounded-full p-1">
-                          <PhotoIcon
-                            className="mx-auto h-full w-ful text-[#BDC2C1]"
-                            area-hidden="true" 
-                          />
+                          {
+                            avatar?.url ? (
+                            <img src={avatar?.url} alt="profileImg" className="w-full h-full rounded-full object-cover"/> ) : (<PhotoIcon
+                          className="mx-auto h-full w-ful text-[#BDC2C1]"
+                          area-hidden="true" 
+                        /> 
+                        )}
                         </div>
                         <div className="mt-4 flex items-center mb-1 text-sm leading-6 text-center text-[#C8CDCA] ">
                           <label htmlFor="file-upload" className="relative cursor-pointer rounded-md px-2 py-1 bg-[#4B6C64] font-semibold outline-none ring-1 focus-within:ring-2 hover:bg-[#38534C]"><span>Subir una imagen</span>{""}

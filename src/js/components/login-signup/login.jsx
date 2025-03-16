@@ -27,7 +27,7 @@ const Login = ({ setLogin }) => {
   };
 
   return (
-    <div className='bg-[#96A89C] min-h-screen flex flex-col items-center justify-center text-center pb-32'>
+    <div className='bg-[#96A89C] min-h-screen flex flex-col items-center justify-center pb-32'>
       <form onSubmit={handleLogin} className="max-w-5xl mx-auto pt-10 px-10 lg:px-0">
         <div className="border-b border-[#143A27] pb-5">
           <h2 className="text-5xl text-[#143A27] font-semibold font-serif roboto-subtitulos text-center">
