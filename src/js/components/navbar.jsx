@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export const Navbar = () => {
   const [menuVisible, setMenuVisible] = useState(false);
   const [menuClicked, setMenuClicked] = useState(false);
+  const navigate = useNavigate();
 
   const handleMouseEnter = () => {
     setMenuVisible(true);
@@ -17,6 +19,14 @@ export const Navbar = () => {
   const handleClick = () => {
     setMenuClicked(!menuClicked);
     setMenuVisible(!menuClicked);
+  };
+
+  const handleLoginClick = () => {
+    navigate('/login');
+  };
+
+  const handleSignupClick = () => {
+    navigate('/signup');
   };
 
   return (
@@ -40,9 +50,9 @@ export const Navbar = () => {
           <img src="Group 1.png" alt="Icono perfil" className="h-8 cursor-pointer" onClick={handleClick}/>
           {menuVisible && (
               <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-20">
-                <a href="#login" className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Iniciar sesión</a>
-                <a href="#register" className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Registrarse</a>
-                </div>
+                <button onClick={handleLoginClick} className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-200">Iniciar sesión</button>
+                <button onClick={handleSignupClick} className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-200">Registrarse</button>
+              </div>
             )}
         </div>
         </div> 
