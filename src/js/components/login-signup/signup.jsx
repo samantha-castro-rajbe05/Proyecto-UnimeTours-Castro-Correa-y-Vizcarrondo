@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { db, auth } from "../../firebaseConfig.js";
 import { supabase } from "../../supabaseConfig";
 import { doc, setDoc } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import Login from "./login.jsx";
 import Label from "./label.jsx";
@@ -31,10 +32,12 @@ const Signup = () => {
         return;
       }
       
+      let user = null;
+
     try {
       // Crear usuario en Firebase Auth
       const userCredential = await createUserWithEmailAndPassword(auth, email, contraseña);
-      const user = userCredential.user;
+      user = userCredential.user;
 
       // Subir foto de perfil a Supabase
       let avatarUrl = "";
@@ -52,18 +55,34 @@ const Signup = () => {
 
       // Guardar datos del usuario en Firestore
       await setDoc(doc(db, "users", user.uid), {
-        nombre,
-        apellido,
-        telefono,
-        email,
-        avatarUrl,
+        nombre: nombre,
+        apellido: apellido,
+        telefono: telefono,
+        email: email,
+        uid: userCredential.user.uid,
+        //avatarUrl: avatarUrl,
+        fechaCreacion: new Date()
       });
 
       setLoading(false);
       setLogin(true);
     } catch (error) {
       console.error("Error al registrarse:", error);
-      setErrMsg(error.message);
+      if (error.code === 'auth/email-already-in-use') {
+        setErrMsg("El correo electrónico ya está en uso.");
+      } else if (error.message.includes('Bucket not found')) {
+        setErrMsg("El bucket de almacenamiento no existe.");
+      } else if (error.message.includes('Unauthorized')) {
+        setErrMsg("No tienes permiso para subir archivos.");
+      } else {
+        setErrMsg(error.message);
+      }
+
+            // Eliminar el usuario de Firebase Auth si hubo un error
+            if (user) {
+              await deleteUser(user);
+            }
+
       setLoading(false);
     }
   };
