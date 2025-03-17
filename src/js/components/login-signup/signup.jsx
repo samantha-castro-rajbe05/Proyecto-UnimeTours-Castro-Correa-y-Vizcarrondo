@@ -1,7 +1,5 @@
-//registarse
-
 import React, { useState } from "react";
-import { db, auth } from "../../firebaseConfig";
+import { db, auth } from "../../firebaseConfig.js";
 import { supabase } from "../../supabaseConfig";
 import { doc, setDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword } from "firebase/auth";
@@ -26,6 +24,13 @@ const Signup = () => {
     const formData = new FormData(e.target);
     const { nombre, apellido, telefono, email, contraseña } = Object.fromEntries(formData);
 
+       // Validar la longitud de la contraseña
+       if (contraseña.length < 6) {
+        setErrMsg("La contraseña debe tener al menos 6 caracteres.");
+        setLoading(false);
+        return;
+      }
+      
     try {
       // Crear usuario en Firebase Auth
       const userCredential = await createUserWithEmailAndPassword(auth, email, contraseña);
@@ -35,7 +40,7 @@ const Signup = () => {
       let avatarUrl = "";
       if (avatar.file) {
         const { data, error } = await supabase.storage
-          .from("avatars")
+          .from("unimetours-fotos")
           .upload(`public/${user.uid}/${avatar.file.name}`, avatar.file);
 
         if (error) {
@@ -75,9 +80,9 @@ const Signup = () => {
   const handleTelefonoChange = (e) => {
     const value = e.target.value;
     setTelefono(value);
-  
+
     const regex = /^\+58-(414|412|424|212|416|426)\d{7}$/;
-  
+
     if (regex.test(value)) {
       setTelefonoError("");
     } else if (value === "+58-") {
@@ -218,12 +223,3 @@ const Signup = () => {
 };
 
 export default Signup;
-
-//color 1: #143A27
-//color 2: #4B6C64
-//color 3: #4C7856
-//color 4: #708D79
-//color 5: #8C9C9C
-//color 6: #96A89C
-//color 7: #A4ACA6
-//color 8: #D4D9D8
