@@ -61,7 +61,8 @@ const Signup = () => {
         email: email,
         uid: userCredential.user.uid,
         //avatarUrl: avatarUrl,
-        fechaCreacion: new Date()
+        fechaCreacion: new Date(),
+        foto_perfil: ''
       });
 
       setLoading(false);
