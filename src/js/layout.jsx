@@ -6,14 +6,11 @@ import injectContext from "./store/appContext.jsx";
 import Navbar from "./components/navbar.jsx";
 import Login from "./components/login-signup/login.jsx";
 import Signup from "./components/login-signup/signup.jsx";
-import Label from "./components/login-signup/label.jsx";
-
-
+import Blog from "./components/blog/blog.jsx";
+import Feedback from "./components/feedback/feedback.jsx"; // Importa el componente Feedback
+import Naturaleza from "./components/naturaleza/naturaleza.jsx"; // Importa el componente Naturaleza
 
 const Layout = () => {
-    // the basename is used when your project is published in a subdirectory and not in the root of the domain
-    // you can set the basename on the .env file located at the root of this project, E.g: BASENAME=/react-hello-webapp/
-    // const basename = process.env.BASENAME || "";
     const basename = import.meta.env.VITE_BASENAME || "";
     return (
         <BrowserRouter basename={basename}>
@@ -35,18 +32,41 @@ const Layout = () => {
                         </>
                     }
                 />
-
                 <Route
                     path="/signup"
                     element={
                         <>
                             <Signup />
-                            
                         </>
                     }
                 />
-
-                
+                <Route
+                    path="/blog"
+                    element={
+                        <>
+                            <Navbar />
+                            <Blog />
+                        </>
+                    }
+                />
+                <Route
+                    path="/feedback"
+                    element={
+                        <>
+                            <Navbar />
+                            <Feedback /> {/* Renderiza el componente Feedback */}
+                        </>
+                    }
+                />
+                <Route
+                    path="/naturaleza"
+                    element={
+                        <>
+                            <Navbar />
+                            <Naturaleza /> {/* Renderiza el componente Naturaleza */}
+                        </>
+                    }
+                />
             </Routes>
         </BrowserRouter>
     );
