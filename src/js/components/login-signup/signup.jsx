@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { db, auth } from "../../firebaseConfig.js";
-import { supabase } from "../../supabaseConfig";
+import { supabase,uploadImage  } from "../../supabaseConfig";
 import { doc, setDoc } from "firebase/firestore";
 import { getFirestore } from "firebase/firestore";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import Login from "./login.jsx";
 import Label from "./label.jsx";
 import { PhotoIcon } from "@heroicons/react/24/solid";
+
+
 
 const Signup = () => {
   const [login, setLogin] = useState(false);
@@ -42,16 +44,19 @@ const Signup = () => {
       // Subir foto de perfil a Supabase
       let avatarUrl = "";
       if (avatar.file) {
-        const { data, error } = await supabase.storage
-          .from("unimetours-fotos")
-          .upload(`public/${user.uid}/${avatar.file.name}`, avatar.file);
-
-        if (error) {
-          throw error;
-        }
-
-        avatarUrl = data.Key;
+        avatarUrl = await uploadImage(avatar.file, "unimetours-fotos", `public/${user.uid}`);
       }
+      // if (avatar.file) {
+      //   const { data, error } = await supabase.storage
+      //     .from("unimetours-fotos")
+      //     .upload(`public/${user.uid}/${avatar.file.name}`, avatar.file);
+
+      //   if (error) {
+      //     throw error;
+      //   }
+
+      //   avatarUrl = data.Key;
+      // }
 
       // Guardar datos del usuario en Firestore
       await setDoc(doc(db, "users", user.uid), {
@@ -60,9 +65,9 @@ const Signup = () => {
         telefono: telefono,
         email: email,
         uid: userCredential.user.uid,
-        //avatarUrl: avatarUrl,
+        avatarUrl: avatarUrl || "", // Establecer un valor predeterminado si avatarUrl es undefined
         fechaCreacion: new Date(),
-        foto_perfil: ''
+        foto_perfil: avatarUrl // Guardar la URL de la imagen en el campo foto_perfil
       });
 
       setLoading(false);
@@ -218,7 +223,6 @@ const Signup = () => {
                                 onChange={handleAvatar}
                               />
                             </label>
-                            <p className="mx-2 text-[#C8CDCA]">o arrastra hasta aquí</p>
                           </div>
                           <p className="text-[#6D706F] text-xs leading-5">PNG, JPG, GIF hasta 10MB </p>
                         </div>

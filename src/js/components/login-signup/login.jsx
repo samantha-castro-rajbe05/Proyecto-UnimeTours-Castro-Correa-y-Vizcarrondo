@@ -1,15 +1,45 @@
-import React, { useState } from 'react';
-import Label from './label.jsx';
-//import Signup from './signup.jsx';
+import React, { useState } from "react";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import Label from "./label.jsx";
+
 
 const Login = ({ setLogin }) => {
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
   const [emailError, setEmailError] = useState("");
+  const [errMsg, setErrMsg] = useState("");
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    // Lógica de inicio de sesión
-  };
+  const handleLogin = async (e) => {
+       e.preventDefault();
+       setLoading(true);
+       const formData = new FormData(e.target);
+       const {email, contraseña } = Object.fromEntries(formData);
+   
+          // Validar la longitud de la contraseña
+          if (contraseña.length < 6) {
+           setErrMsg("La contraseña debe tener al menos 6 caracteres.");
+           setLoading(false);
+           return;
+         }
+         try {
+          // Iniciar sesión con Firebase Auth
+          await signInWithEmailAndPassword(auth, email, contraseña);
+          setLoading(false);
+          // Redirigir o realizar alguna acción después de iniciar sesión
+        } catch (error) {
+          console.error("Error al iniciar sesión:", error);
+          if (error.code === 'auth/user-not-found') {
+            setErrMsg("No se encontró una cuenta con este correo electrónico.");
+          } else if (error.code === 'auth/wrong-password') {
+            setErrMsg("La contraseña es incorrecta.");
+          } else {
+            setErrMsg("Error al iniciar sesión. Por favor, inténtalo de nuevo.");
+          }
+          setLoading(false);
+        }
+      };
+
+
 
   const handleEmailChange = (e) => {
     const value = e.target.value;
@@ -60,7 +90,7 @@ const Login = ({ setLogin }) => {
               />
             </div>
           </div>
-          <p className="mt-5 bg-white/60 text-red-600 text-center py-1 rounded-md tracking-wide font-semibold">Mensaje error</p>
+          <p className="mt-5 bg-white/60 text-red-600 text-center py-1 rounded-md tracking-wide font-semibold">{errMsg}</p>
           <button type="submit" className="mt-5 bg-[#143A27] w-full py-2 uppercase text-base font-bold tracking-wide rounded-md text-[#D4D9D8] hover:text-white hover:bg-[#02321A] duration-200">Iniciar sesión</button>
         </div>
       </form>
