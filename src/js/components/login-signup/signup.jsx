@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import {useNavigate} from "react-router-dom";
 import {
   db,
   auth,
@@ -32,6 +33,8 @@ const Signup = () => {
   const [loading, setLoading] = useState(false);
   const [errMsg, setErrMsg] = useState("");
   const [avatar, setAvatar] = useState({ file: null, url: "" });
+
+  const navigate = useNavigate();
 
   const [telefono, setTelefono] = useState("+58-");
   const [telefonoError, setTelefonoError] = useState("");
@@ -98,6 +101,7 @@ const Signup = () => {
 
       setLoading(false);
       setLogin(true);
+      navigate("/app"); // Redirigir al usuario a la ruta /app
     } catch (error) {
       console.error("Error al registrarse:", error);
       if (error.code === "auth/email-already-in-use") {
@@ -162,7 +166,7 @@ const Signup = () => {
       );
     }
   };
-  
+
   const handleFacebookSignUp = async () => {
     try {
       setLoading(true);
@@ -183,6 +187,7 @@ const Signup = () => {
         });
         setLoading(false);
         setLogin(true);
+        navigate("/app"); // Redirigir al usuario a la ruta /app
       }
     } catch (error) {
       setLoading(false);
@@ -211,6 +216,7 @@ const Signup = () => {
         });
         setLoading(false);
         setLogin(true);
+        navigate("/app"); // Redirigir al usuario a la ruta /app
       }
     } catch (error) {
       setLoading(false);
