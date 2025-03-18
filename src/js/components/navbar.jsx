@@ -35,8 +35,8 @@ export const Navbar = () => {
         <div className="flex space-x-4 text-sm">
           <a href="#rutas" className="text-[#D4D9D8] hover:text-gray-400" onClick ={ () => navigate("/rutas")}>Rutas</a>
           <a href="#galeria" className="text-[#D4D9D8] hover:text-gray-400">Galería</a>
-          <a href="#feedback" className="text-[#D4D9D8] hover:text-gray-400">Feedback</a>
-          <a href="#blog" className="text-[#D4D9D8] hover:text-gray-400">Blog</a>
+          <a href="#feedback" className="text-[#D4D9D8] hover:text-gray-400" onClick = { () => navigate ("/feedback")}>Feedback</a>
+          <a href="#blog" className="text-[#D4D9D8] hover:text-gray-400" onClick = { () => navigate ("/blog")}>Blog</a>
         </div>
         
         <div className="flex justify-center items-center">
@@ -44,7 +44,7 @@ export const Navbar = () => {
         </div>
         
         <div className="flex items-center space-x-4 text-sm">
-          <a href="#naturaleza" className="text-[#D4D9D8] hover:text-gray-400">Naturaleza</a>
+          <a href="#naturaleza" className="text-[#D4D9D8] hover:text-gray-400" onClick = { () => navigate ("/naturaleza")}>Naturaleza </a>
           <a href="#contacto" className="text-[#D4D9D8] hover:text-gray-400">Contáctanos</a>
           <div className="relative" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
           <img src="Group 1.png" alt="Icono perfil" className="h-8 cursor-pointer" onClick={handleClick}/>

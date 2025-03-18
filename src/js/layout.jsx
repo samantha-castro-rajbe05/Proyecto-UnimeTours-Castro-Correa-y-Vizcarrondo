@@ -14,11 +14,7 @@ import Rutas from "./components/Rutas/rutas.jsx";
 import { VerRutas } from "./components/Rutas/verruta.jsx";
 import Footer from "./components/footer.jsx";
 
-
 const Layout = () => {
-    // the basename is used when your project is published in a subdirectory and not in the root of the domain
-    // you can set the basename on the .env file located at the root of this project, E.g: BASENAME=/react-hello-webapp/
-    // const basename = process.env.BASENAME || "";
     const basename = import.meta.env.VITE_BASENAME || "";
     return (
         <BrowserRouter basename={basename}>
@@ -42,17 +38,15 @@ const Layout = () => {
                         </>
                     }
                 />
-
                 <Route
                     path="/signup"
                     element={
                         <>
                             <Signup />
-                            
                         </>
                     }
                 />
-
+                      
                 <Route
                     path="/rutas"
                     element={
@@ -65,14 +59,13 @@ const Layout = () => {
                     }
                 />
                    
-                   
+         
                 <Route
                     path="/blog"
                     element={
                         <>
                             <Navbar />
                             <Blog />
-
                         </>
                     }
                 />
@@ -90,6 +83,7 @@ const Layout = () => {
                     }
                 />
 
+        
                 <Route
                     path="/feedback"
                     element={
