@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebaseConfig.js"; // Asegúrate de que la ruta sea correcta
+import { auth } from "../../firebaseConfig.js"; 
 import Label from "./label.jsx";
 
 
