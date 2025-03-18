@@ -33,14 +33,14 @@ export const Navbar = () => {
     <nav className="bg-[#143A27] p-4 rounded-[20px] h-10 mt-4 mx-4 abosolute z-10">
       <div className="container mx-auto flex justify-between items-center h-full">
         <div className="flex space-x-4 text-sm">
-          <a href="#rutas" className="text-[#D4D9D8] hover:text-gray-400">Rutas</a>
+          <a href="#rutas" className="text-[#D4D9D8] hover:text-gray-400" onClick ={ () => navigate("/rutas")}>Rutas</a>
           <a href="#galeria" className="text-[#D4D9D8] hover:text-gray-400">Galería</a>
           <a href="#feedback" className="text-[#D4D9D8] hover:text-gray-400" onClick = { () => navigate ("/feedback")}>Feedback</a>
           <a href="#blog" className="text-[#D4D9D8] hover:text-gray-400" onClick = { () => navigate ("/blog")}>Blog</a>
         </div>
         
         <div className="flex justify-center items-center">
-          <img src="unimetours-logo.png" alt="UnimeTours Logo" className="h-10"/>
+          <img src="unimetours-logo.png" alt="UnimeTours Logo" className="h-10" onClick ={() => navigate("/")} />
         </div>
         
         <div className="flex items-center space-x-4 text-sm">

@@ -38,6 +38,7 @@ export const App = () => {
 
 
             <section>
+           
                 <div className="card-grid-image w-full pl-30 py-15 px-30 pt-10 bg-[#96A89C] rounded-lg shadow-lg">
                     <div className="text-content-heading">
                         <h2 className="text-5xl font-semibold font-serif roboto-subtitulos text-[#143A27] px-15 pb-5">
@@ -96,7 +97,7 @@ export const App = () => {
                         </div>
                     </div>
                     <div className="text-center mt-3">
-                    <button className="bg-[#143A27] text-white font-semibold py-2 px-6 rounded-lg hover:bg-[#96A89C] transition duration-300" onClick={() => window.location.href = "xxxxxx"} >Ver más</button>
+                    <button className="bg-[#143A27] text-white font-semibold py-2 px-6 rounded-lg hover:bg-[#96A89C] transition duration-300" onClick={() => navigate("/rutas")} >Ver más</button>
                     </div>
                 </div>
 
@@ -122,7 +123,7 @@ export const App = () => {
                     </div>
                 </div>
                 <div className="text-center mt-3">
-                <button className="bg-[#143A27] text-white font-semibold py-2 px-6 rounded-lg hover:bg-[#96A89C] transition duration-300" onClick={() => window.location.href = "xxxxxx"} >Ver más</button>
+                <button className="bg-[#143A27] text-white font-semibold py-2 px-6 rounded-lg hover:bg-[#96A89C] transition duration-300" onClick={() => window.location.href = "/blog"} >Ver más</button>
                 </div>
                 </div>
             </section>
@@ -213,7 +214,7 @@ export const App = () => {
                         </div>
                         </div>
                         <div className="text-center mt-3">
-                        <button className="bg-[#143A27] text-white font-semibold py-2 px-6 rounded-lg hover:bg-[#96A89C] transition duration-300" onClick={() => window.location.href = "xxxxxx"} >Ver más</button>
+                        <button className="bg-[#143A27] text-white font-semibold py-2 px-6 rounded-lg hover:bg-[#96A89C] transition duration-300" onClick={() => window.location.href = "/feedback"} >Ver más</button>
                         </div>
                     </div>
             
@@ -230,77 +231,6 @@ export const App = () => {
                 </div>
             </section>
 
-
-            <section>
-                <div
-                    className="barra-abajo"
-                    style={{
-                        background: '#96A89C',
-                        borderRadius: '0px',
-                        boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
-                        padding: '20px',
-                        position: 'relative', // Para facilitar el posicionamiento absoluto
-                    }}
-                    >
-                    {/* Sección superior */}
-                    <div
-                        style={{
-                        display: 'flex',
-                        justifyContent: 'space-between', // Espaciado uniforme entre los elementos
-                        alignItems: 'center',
-                        marginBottom: '20px',
-                        }}
-                    >
-                        <div className="unime-tours-com text-2x0.5 font-bold font-serif roboto-parrafos text-[#D4D9D8] mb-2 pl-15">UnimeTours.com</div>
-                        <div className="inicio text-2x0.5 font-bold font-serif roboto-parrafos text-[#D4D9D8] mb-2">Inicio</div>
-                        <div className="cont-ctanos text-2x0.5 font-bold font-serif roboto-parrafos text-[#D4D9D8] mb-2">Contáctanos</div>
-                        <div className="unimetours-gmail-com text-2x0.5 font-bold font-serif roboto-parrafos text-[#D4D9D8] mb-2 pr-15">unimetours@gmail.com</div>
-                    </div>
-
-                    {/* Línea divisoria */}
-                     <hr style={{ border: '3px solid #D4D9D8', margin: 'pl-15 pr-15 ' }} />
-
-                    {/* Sección inferior */}
-                    <div
-                        style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between', // Para manejar las esquinas
-                        position: 'relative',
-                        }}
-                    >
-                        {/* Esquina inferior izquierda */}
-                        <div style={{ display: 'flex', gap: '5px' }}>
-                        <img className="facebook pl-15" src="facebook.png" alt="Facebook Logo" />
-                        <img className="phone-call" src="phonecall0.png" alt="Phone Call Icon" />
-                        </div>
-
-                        {/* Elemento central */}
-                        <img
-                        className="rectangle-54 pr-20"
-                        src="rectangle-540.png"
-                        alt="Rectangle Graphic"
-                        style={{
-                            margin: '0 auto', // Centrado
-                            maxWidth: '300px',
-                        }}
-                        />
-
-                        {/* Esquina inferior derecha */}
-                        <img
-                        className="captura-de-pantalla-2025-03-09-123734-removebg-preview-1-picaai pr-15"
-                        src="captura-de-pantalla-2025-03-09-123734-removebg-preview-1-picaai0.png"
-                        alt="Preview"
-                        style={{
-                            position: 'absolute',
-                            bottom: 0,
-                            right: 0,
-                            maxWidth: '200px',
-                        }}
-                        />
-                    </div>
-                </div>
-            </section>
             
         </div>
     );

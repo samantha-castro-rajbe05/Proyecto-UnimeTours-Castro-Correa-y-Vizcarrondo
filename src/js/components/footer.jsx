@@ -22,9 +22,9 @@ const Footer = () => {
             }}
         >
             <div className="unime-tours-com text-2x0.5 font-bold font-serif roboto-parrafos text-[#D4D9D8] mb-2 pl-15">UnimeTours.com</div>
-            <div className="inicio text-2x0.5 font-bold font-serif roboto-parrafos text-[#D4D9D8] mb-2">Inicio</div>
+            <div className="inicio text-2x0.5 font-bold font-serif roboto-parrafos text-[#D4D9D8] mb-2" onClick= {() => window.location.href = "/"}>Inicio</div>
             <div className="cont-ctanos text-2x0.5 font-bold font-serif roboto-parrafos text-[#D4D9D8] mb-2">Contáctanos</div>
-            <div className="unimetours-gmail-com text-2x0.5 font-bold font-serif roboto-parrafos text-[#D4D9D8] mb-2 pr-15">unimetours@gmail.com</div>
+            <div className="unimetours-gmail-com text-2x0.5 font-bold font-serif roboto-parrafos text-[#D4D9D8] mb-2 pr-15">unimettours@gmail.com</div>
         </div>
 
         {/* Línea divisoria */}
