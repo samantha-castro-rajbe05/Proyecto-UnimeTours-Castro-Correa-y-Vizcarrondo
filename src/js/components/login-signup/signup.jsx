@@ -99,7 +99,8 @@ const Signup = () => {
 
       setLoading(false);
       setLogin(true);
-      navigate('/');
+      navigate("/");
+      
     } catch (error) {
       console.error("Error al registrarse:", error);
       if (error.code === "auth/email-already-in-use") {
