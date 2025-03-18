@@ -6,9 +6,9 @@ import injectContext from "./store/appContext.jsx";
 import Navbar from "./components/navbar.jsx";
 import Login from "./components/login-signup/login.jsx";
 import Signup from "./components/login-signup/signup.jsx";
-
-
-
+import Blog from "./components/blog/blog.jsx";
+import Feedback from "./components/feedback/feedback.jsx"; // Importa el componente Feedback
+import Naturaleza from "./components/naturaleza/naturaleza.jsx"; // Importa el componente Naturaleza
 import Label from "./components/login-signup/label.jsx";
 import Rutas from "./components/Rutas/rutas.jsx";
 import { VerRutas } from "./components/Rutas/verruta.jsx";
@@ -53,66 +53,6 @@ const Layout = () => {
                     }
                 />
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 <Route
                     path="/rutas"
                     element={
@@ -124,6 +64,19 @@ const Layout = () => {
                         </>
                     }
                 />
+                   
+                   
+                <Route
+                    path="/blog"
+                    element={
+                        <>
+                            <Navbar />
+                            <Blog />
+
+                        </>
+                    }
+                />
+
                 <Route
                     path = "/verruta"
                     element= {
@@ -137,9 +90,26 @@ const Layout = () => {
                     }
                 />
 
-                
+                <Route
+                    path="/feedback"
+                    element={
+                        <>
+                            <Navbar />
+                            <Feedback /> {/* Renderiza el componente Feedback */}
+                        </>
+                    }
+                />
+                <Route
+                    path="/naturaleza"
+                    element={
+                        <>
+                            <Navbar />
+                            <Naturaleza /> {/* Renderiza el componente Naturaleza */}
+                        </>
+                    }
+                />
+
             </Routes>
-            
         </BrowserRouter>
     );
 };
