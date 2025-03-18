@@ -30,7 +30,7 @@ const Login = ({ setLogin }) => {
       // Iniciar sesión con Firebase Auth
       await signInWithEmailAndPassword(auth, email, contraseña);
       setLoading(false);
-      navigate("/app"); // Redirigir a la página principal después de iniciar sesión
+      navigate("/"); // Redirigir a la página principal después de iniciar sesión
     } catch (error) {
       console.error("Error al iniciar sesión:", error);
       if (error.code === "auth/user-not-found") {

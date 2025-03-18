@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import {Navigate} from "react-router-dom";
 import {
   db,
   auth,
@@ -98,6 +99,7 @@ const Signup = () => {
 
       setLoading(false);
       setLogin(true);
+      navigate('/');
     } catch (error) {
       console.error("Error al registrarse:", error);
       if (error.code === "auth/email-already-in-use") {
@@ -182,7 +184,8 @@ const Signup = () => {
           provider: "facebook",
         });
         setLoading(false);
-        setLogin(true);
+        setLogin(true);\
+        navigate('/');
       }
     } catch (error) {
       setLoading(false);
@@ -211,6 +214,7 @@ const Signup = () => {
         });
         setLoading(false);
         setLogin(true);
+        navigate('/');
       }
     } catch (error) {
       setLoading(false);
