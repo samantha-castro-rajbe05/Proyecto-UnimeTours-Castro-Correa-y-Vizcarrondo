@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../firebaseConfig.js"; // Asegúrate de que la ruta sea correcta
 import Label from "./label.jsx";
 
 
@@ -8,33 +10,36 @@ const Login = ({ setLogin }) => {
   const [loading, setLoading] = useState(false);
   const [emailError, setEmailError] = useState("");
   const [errMsg, setErrMsg] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
-       e.preventDefault();
-       setLoading(true);
-       const formData = new FormData(e.target);
-       const {email, contraseña } = Object.fromEntries(formData);
-   
-          // Validar la longitud de la contraseña
-          if (contraseña.length < 6) {
-           setErrMsg("La contraseña debe tener al menos 6 caracteres.");
-           setLoading(false);
-           return;
-         }
-         try {
-          // Iniciar sesión con Firebase Auth
-          await signInWithEmailAndPassword(auth, email, contraseña);
-          setLoading(false);
-          // Redirigir o realizar alguna acción después de iniciar sesión
-        } catch (error) {
-          console.error("Error al iniciar sesión:", error);
-          if (error.code === 'auth/user-not-found') {
-            setErrMsg("No se encontró una cuenta con este correo electrónico.");
-          } else if (error.code === 'auth/wrong-password') {
-            setErrMsg("La contraseña es incorrecta.");
-          } else {
-            setErrMsg("Error al iniciar sesión. Por favor, inténtalo de nuevo.");
-          }
+    e.preventDefault();
+    setLoading(true);
+    const formData = new FormData(e.target);
+    const email = formData.get("email");
+    const contraseña = formData.get("contraseña");
+
+    // Validar la longitud de la contraseña
+    if (contraseña.length < 6) {
+      setErrMsg("La contraseña debe tener al menos 6 caracteres.");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      // Iniciar sesión con Firebase Auth
+      await signInWithEmailAndPassword(auth, email, contraseña);
+      setLoading(false);
+      navigate("/app"); // Redirigir a la página principal después de iniciar sesión
+    } catch (error) {
+      console.error("Error al iniciar sesión:", error);
+      if (error.code === "auth/user-not-found") {
+        setErrMsg("No se encontró una cuenta con este correo electrónico.");
+      } else if (error.code === "auth/wrong-password") {
+        setErrMsg("La contraseña es incorrecta.");
+      } else {
+        setErrMsg("Error al iniciar sesión. Por favor, inténtalo de nuevo.");
+      }
           setLoading(false);
         }
       };
