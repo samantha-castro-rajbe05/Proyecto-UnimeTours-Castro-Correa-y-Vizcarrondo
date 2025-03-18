@@ -1,13 +1,18 @@
 import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
 
 import { App } from "./views/App.jsx";
 import injectContext from "./store/appContext.jsx";
 import Navbar from "./components/navbar.jsx";
 import Login from "./components/login-signup/login.jsx";
 import Signup from "./components/login-signup/signup.jsx";
-import Label from "./components/login-signup/label.jsx";
 
+
+
+import Label from "./components/login-signup/label.jsx";
+import Rutas from "./components/Rutas/rutas.jsx";
+import { VerRutas } from "./components/Rutas/verruta.jsx";
+import Footer from "./components/footer.jsx";
 
 
 const Layout = () => {
@@ -24,6 +29,8 @@ const Layout = () => {
                         <>
                             <Navbar />
                             <App />
+                            <Footer/>
+                            
                         </>
                     }
                 />
@@ -46,8 +53,93 @@ const Layout = () => {
                     }
                 />
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <Route
+                    path="/rutas"
+                    element={
+                        <>
+                            <Navbar/>
+                            <Rutas />
+                            <Footer/>
+                            
+                        </>
+                    }
+                />
+                <Route
+                    path = "/verruta"
+                    element= {
+
+                        <>
+                            <Navbar/>
+                            <VerRutas/>
+                            <Footer/>
+
+                        </>
+                    }
+                />
+
                 
             </Routes>
+            
         </BrowserRouter>
     );
 };
