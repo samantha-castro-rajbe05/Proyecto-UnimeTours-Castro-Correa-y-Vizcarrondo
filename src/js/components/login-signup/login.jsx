@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import { db, auth } from "../../firebaseConfig.js";
-import { supabase,uploadImage  } from "../../supabaseConfig";
-import { doc, setDoc } from "firebase/firestore";
-import { getFirestore } from "firebase/firestore";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import Login from "./login.jsx";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import Label from "./label.jsx";
 
 
@@ -14,11 +9,11 @@ const Login = ({ setLogin }) => {
   const [emailError, setEmailError] = useState("");
   const [errMsg, setErrMsg] = useState("");
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
        e.preventDefault();
        setLoading(true);
        const formData = new FormData(e.target);
-       const { nombre, apellido, telefono, email, contraseña } = Object.fromEntries(formData);
+       const {email, contraseña } = Object.fromEntries(formData);
    
           // Validar la longitud de la contraseña
           if (contraseña.length < 6) {
@@ -26,10 +21,24 @@ const Login = ({ setLogin }) => {
            setLoading(false);
            return;
          }
-         
-         let user = null;
-
+         try {
+          // Iniciar sesión con Firebase Auth
+          await signInWithEmailAndPassword(auth, email, contraseña);
+          setLoading(false);
+          // Redirigir o realizar alguna acción después de iniciar sesión
+        } catch (error) {
+          console.error("Error al iniciar sesión:", error);
+          if (error.code === 'auth/user-not-found') {
+            setErrMsg("No se encontró una cuenta con este correo electrónico.");
+          } else if (error.code === 'auth/wrong-password') {
+            setErrMsg("La contraseña es incorrecta.");
+          } else {
+            setErrMsg("Error al iniciar sesión. Por favor, inténtalo de nuevo.");
+          }
+          setLoading(false);
         }
+      };
+
 
 
   const handleEmailChange = (e) => {
