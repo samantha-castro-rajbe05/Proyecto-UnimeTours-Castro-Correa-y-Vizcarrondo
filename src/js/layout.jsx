@@ -10,11 +10,12 @@ import Blog from "./components/blog/blog.jsx";
 import Feedback from "./components/feedback/feedback.jsx"; // Importa el componente Feedback
 import Naturaleza from "./components/naturaleza/naturaleza.jsx"; // Importa el componente Naturaleza
 import Label from "./components/login-signup/label.jsx";
-import Rutas from "./components/Rutas/rutas.jsx";
 import { VerRutas } from "./components/Rutas/verruta.jsx";
 import Footer from "./components/footer.jsx";
 import Galeria from "./components/galeria/galeria.jsx"; // Importa el componente Galería
 import Contactanos from "./components/contactanos/contactanos.jsx"; // Importa el componente Contactanos
+import BotonPaypal from "./components/paypal/Botonpaypal.jsx";
+import RutasCliente from "./components/Rutas/rutasprueb
 
 const Layout = () => {
     const basename = import.meta.env.VITE_BASENAME || "";
@@ -51,9 +52,11 @@ const Layout = () => {
                     path="/rutas"
                     element={
                         <>
-                            <Navbar />
-                            <Rutas />
-                            <Footer />
+
+                            <Navbar/>
+                            <RutasCliente />
+                            <Footer/>
+                           
                         </>
                     }
                 />
@@ -94,6 +97,7 @@ const Layout = () => {
                         </>
                     }
                 />
+
                 <Route
                     path="/galeria"
                     element={
@@ -114,6 +118,13 @@ const Layout = () => {
                         </>
                     }
                 />
+
+                <Route path = "/pago" element = {<BotonPaypal/>}/>
+
+                
+                <Route path ="" element = {<NotFound/>}/>
+
+
             </Routes>
         </BrowserRouter>
     );
