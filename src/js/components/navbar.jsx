@@ -34,7 +34,7 @@ export const Navbar = () => {
       <div className="container mx-auto flex justify-between items-center h-full">
         <div className="flex space-x-4 text-sm">
           <a href="#rutas" className="text-[#D4D9D8] hover:text-gray-400" onClick ={ () => navigate("/rutas")}>Rutas</a>
-          <a href="#galeria" className="text-[#D4D9D8] hover:text-gray-400">Galería</a>
+          <a href="#galeria" className="text-[#D4D9D8] hover:text-gray-400" onClick ={ () => navigate ("/galeria")}>Galeria</a>
           <a href="#feedback" className="text-[#D4D9D8] hover:text-gray-400" onClick = { () => navigate ("/feedback")}>Feedback</a>
           <a href="#blog" className="text-[#D4D9D8] hover:text-gray-400" onClick = { () => navigate ("/blog")}>Blog</a>
         </div>
