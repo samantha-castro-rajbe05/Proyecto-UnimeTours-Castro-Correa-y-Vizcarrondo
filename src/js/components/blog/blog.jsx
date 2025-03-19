@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import AllBlogs from "./all-blogs.jsx"; // Importa el componente para ver todos los blogs
-import AddBlog from "./add-blog.jsx"; // Importa el componente para añadir un blog
-import Footer from "../footer.jsx"; // Importa el componente Footer
+import AllBlogs from "./all-blogs.jsx";
+import AddBlog from "./add-blog.jsx";
+import Footer from "../footer.jsx";
 
 const Blog = () => {
   const [view, setView] = useState("main");
@@ -32,29 +32,30 @@ const Blog = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#F5F5F5]">
-      {/* Contenido principal con flex-grow para que el footer quede abajo */}
-      <div className="flex-grow px-10 py-10">
-        {/* Renderiza la vista según el estado */}
+      {/* Contenido principal */}
+      <div className="flex-grow px-4 py-12">
         {view === "allBlogs" && <AllBlogs onBack={() => setView("main")} />}
         {view === "addBlog" && <AddBlog onBack={() => setView("main")} />}
+
+        {/* Vista principal */}
         {view === "main" && (
-          <>
+          <div className="max-w-5xl mx-auto">
             {/* Vista previa de los blogs */}
             {blogs.map((blog) => (
               <div
                 key={blog.id}
-                className="blog-preview flex flex-col md:flex-row items-center bg-[#D4D9D8] border-4 border-[#143A27] rounded-lg shadow-md mb-10 p-10"
+                className="flex flex-col md:flex-row items-center bg-[#D4D9D8] border-2 border-[#143A27] rounded-xl shadow-lg overflow-hidden mb-8"
               >
                 <img
                   src={blog.image}
                   alt={blog.title}
-                  className="w-full md:w-[45%] h-80 object-cover rounded-lg mb-5 md:mb-0 md:mr-8"
+                  className="w-full md:w-[40%] h-64 object-cover"
                 />
-                <div className="text-content md:w-[55%]">
-                  <h2 className="text-4xl font-bold text-[#143A27] mb-4">
+                <div className="p-6 md:w-[60%]">
+                  <h2 className="text-2xl md:text-3xl font-bold text-[#143A27] mb-4">
                     {blog.title}
                   </h2>
-                  <p className="text-base font-light text-[#143A27] mb-4">
+                  <p className="text-base md:text-lg font-light text-[#143A27] mb-4">
                     {blog.description.length > 150
                       ? `${blog.description.substring(0, 150)}...`
                       : blog.description}
@@ -64,28 +65,29 @@ const Blog = () => {
             ))}
 
             {/* Botones para ver más y añadir entrada */}
-            <div className="flex justify-center gap-4 mt-10">
+            <div className="flex justify-center gap-6 mt-8">
               <button
-                className="bg-[#143A27] text-white font-semibold py-3 px-8 rounded-lg hover:bg-[#96A89C] transition duration-300"
+                className="bg-[#143A27] text-white font-semibold py-3 px-6 rounded-lg hover:bg-[#96A89C] transition duration-300 w-[45%] md:w-auto"
                 onClick={() => setView("allBlogs")}
               >
                 Ver más
               </button>
               <button
-                className="bg-[#143A27] text-white font-semibold py-3 px-8 rounded-lg hover:bg-[#96A89C] transition duration-300"
+                className="bg-[#143A27] text-white font-semibold py-3 px-6 rounded-lg hover:bg-[#96A89C] transition duration-300 w-[45%] md:w-auto"
                 onClick={() => setView("addBlog")}
               >
                 Añadir entrada
               </button>
             </div>
-          </>
+          </div>
         )}
       </div>
 
-      {/* Footer fijo abajo */}
+      {/* Footer */}
       <Footer />
     </div>
   );
 };
 
 export default Blog;
+

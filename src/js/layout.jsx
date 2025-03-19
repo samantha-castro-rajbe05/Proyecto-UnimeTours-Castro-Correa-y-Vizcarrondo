@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { App } from "./views/App.jsx";
 import injectContext from "./store/appContext.jsx";
@@ -13,6 +13,8 @@ import Label from "./components/login-signup/label.jsx";
 import Rutas from "./components/Rutas/rutas.jsx";
 import { VerRutas } from "./components/Rutas/verruta.jsx";
 import Footer from "./components/footer.jsx";
+import Galeria from "./components/galeria/galeria.jsx"; // Importa el componente Galería
+import Contactanos from "./components/contactanos/contactanos.jsx"; // Importa el componente Contactanos
 
 const Layout = () => {
     const basename = import.meta.env.VITE_BASENAME || "";
@@ -25,8 +27,7 @@ const Layout = () => {
                         <>
                             <Navbar />
                             <App />
-                            <Footer/>
-                            
+                            <Footer />
                         </>
                     }
                 />
@@ -46,20 +47,16 @@ const Layout = () => {
                         </>
                     }
                 />
-                      
                 <Route
                     path="/rutas"
                     element={
                         <>
-                            <Navbar/>
+                            <Navbar />
                             <Rutas />
-                            <Footer/>
-                            
+                            <Footer />
                         </>
                     }
                 />
-                   
-         
                 <Route
                     path="/blog"
                     element={
@@ -69,27 +66,22 @@ const Layout = () => {
                         </>
                     }
                 />
-
                 <Route
-                    path = "/verruta"
-                    element= {
-
+                    path="/verruta"
+                    element={
                         <>
-                            <Navbar/>
-                            <VerRutas/>
-                            <Footer/>
-
+                            <Navbar />
+                            <VerRutas />
+                            <Footer />
                         </>
                     }
                 />
-
-        
                 <Route
                     path="/feedback"
                     element={
                         <>
                             <Navbar />
-                            <Feedback /> {/* Renderiza el componente Feedback */}
+                            <Feedback />
                         </>
                     }
                 />
@@ -98,11 +90,30 @@ const Layout = () => {
                     element={
                         <>
                             <Navbar />
-                            <Naturaleza /> {/* Renderiza el componente Naturaleza */}
+                            <Naturaleza />
                         </>
                     }
                 />
-
+                <Route
+                    path="/galeria"
+                    element={
+                        <>
+                            <Navbar />
+                            <Galeria />
+                            <Footer />
+                        </>
+                    }
+                />
+                <Route
+                    path="/contactanos"
+                    element={
+                        <>
+                            <Navbar />
+                            <Contactanos />
+                            <Footer />
+                        </>
+                    }
+                />
             </Routes>
         </BrowserRouter>
     );

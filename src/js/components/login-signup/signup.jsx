@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {Navigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {
   db,
   auth,
@@ -33,6 +33,7 @@ const Signup = () => {
   const [loading, setLoading] = useState(false);
   const [errMsg, setErrMsg] = useState("");
   const [avatar, setAvatar] = useState({ file: null, url: "" });
+  const navigate = useNavigate();
 
   const [telefono, setTelefono] = useState("+58-");
   const [telefonoError, setTelefonoError] = useState("");
@@ -185,7 +186,7 @@ const Signup = () => {
           provider: "facebook",
         });
         setLoading(false);
-        setLogin(true);\
+        setLogin(true);
         navigate('/');
       }
     } catch (error) {
@@ -370,7 +371,7 @@ const Signup = () => {
           <p className="text-sm leading-6 text-[#4B6C64] text-center py-6">
             ¿Ya tienes una cuenta creada?{" "}
             <button
-              onClick={() => setLogin(true)}
+              onClick={() => navigate("/signup")}
               className="text-[#143A27] font-semibold underline underline-offset-2 decoration-[1px] hover:text-white duration-200"
             >
               Iniciar sesión
