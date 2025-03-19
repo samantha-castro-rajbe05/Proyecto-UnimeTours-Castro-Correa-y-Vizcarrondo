@@ -99,7 +99,7 @@ const Login = ({ setLogin }) => {
           <button type="submit" className="mt-5 bg-[#143A27] w-full py-2 uppercase text-base font-bold tracking-wide rounded-md text-[#D4D9D8] hover:text-white hover:bg-[#02321A] duration-200">Iniciar sesión</button>
         </div>
       </form>
-      <p className="text-sm leading-6 text-[#4B6C64] text-center py-6">¿Aún no tienes una cuenta creada? <button onClick={() => setLogin(false)} className="text-[#143A27] font-semibold underline underline-offset-2 decoration-[1px] hover:text-white duration-200">Registrarse</button></p>
+      <p className="text-sm leading-6 text-[#4B6C64] text-center py-6" >¿Aún no tienes una cuenta creada? <button onClick={() => navigate("/signup")} className="text-[#143A27] font-semibold underline underline-offset-2 decoration-[1px] hover:text-white duration-200">Registrarse</button></p>
     </div>
   );
 };
