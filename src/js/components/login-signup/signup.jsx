@@ -33,7 +33,6 @@ const Signup = () => {
   const [loading, setLoading] = useState(false);
   const [errMsg, setErrMsg] = useState("");
   const [avatar, setAvatar] = useState({ file: null, url: "" });
-
   const navigate = useNavigate();
 
   const [telefono, setTelefono] = useState("+58-");
@@ -101,7 +100,8 @@ const Signup = () => {
 
       setLoading(false);
       setLogin(true);
-      navigate("/app"); // Redirigir al usuario a la ruta /app
+      navigate("/");
+      
     } catch (error) {
       console.error("Error al registrarse:", error);
       if (error.code === "auth/email-already-in-use") {
@@ -166,7 +166,7 @@ const Signup = () => {
       );
     }
   };
-
+  
   const handleFacebookSignUp = async () => {
     try {
       setLoading(true);
@@ -187,7 +187,7 @@ const Signup = () => {
         });
         setLoading(false);
         setLogin(true);
-        navigate("/app"); // Redirigir al usuario a la ruta /app
+        navigate('/');
       }
     } catch (error) {
       setLoading(false);
@@ -216,7 +216,7 @@ const Signup = () => {
         });
         setLoading(false);
         setLogin(true);
-        navigate("/app"); // Redirigir al usuario a la ruta /app
+        navigate('/');
       }
     } catch (error) {
       setLoading(false);
@@ -351,7 +351,7 @@ const Signup = () => {
             </div>
             <div className="social-login flex flex-col space-y-4">
               <button
-                type="submit"
+                type="button"
                 className="btn-secondary auth-btn social-auth-btn bg-white/60 mt-5 w-full py-2 text-base font-semibold tracking-wide rounded-md text-[#02321A] hover:text-white hover:bg-[#02321A] duration-200 flex items-center justify-center space-x-2"
                 onClick={handleGoogleSignUp}
               >
@@ -359,7 +359,7 @@ const Signup = () => {
                 <span>Registrarse con Google</span>
               </button>
               <button
-                type="submit"
+                type="button"
                 className="btn-secondary auth-btn social-auth-btn bg-white/60 w-full py-2 text-base font-semibold tracking-wide rounded-md text-[#02321A] hover:text-white hover:bg-[#02321A] duration-200 flex items-center justify-center space-x-2"
                 onClick={handleFacebookSignUp}
               >
@@ -371,7 +371,7 @@ const Signup = () => {
           <p className="text-sm leading-6 text-[#4B6C64] text-center py-6">
             ¿Ya tienes una cuenta creada?{" "}
             <button
-              onClick={() => setLogin(true)}
+              onClick={() => navigate("/signup")}
               className="text-[#143A27] font-semibold underline underline-offset-2 decoration-[1px] hover:text-white duration-200"
             >
               Iniciar sesión

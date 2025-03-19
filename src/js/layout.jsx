@@ -102,7 +102,15 @@ const Layout = () => {
                         </>
                     }
                 />
-
+                <Route
+                    path="/galeria"
+                    element={
+                        <>
+                            <Navbar />
+                            <Galeria /> {/* Renderiza el componente Naturaleza */}
+                        </>
+                    }
+                />
             </Routes>
         </BrowserRouter>
     );
