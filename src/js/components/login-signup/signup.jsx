@@ -351,7 +351,7 @@ const Signup = () => {
             </div>
             <div className="social-login flex flex-col space-y-4">
               <button
-                type="submit"
+                type="button"
                 className="btn-secondary auth-btn social-auth-btn bg-white/60 mt-5 w-full py-2 text-base font-semibold tracking-wide rounded-md text-[#02321A] hover:text-white hover:bg-[#02321A] duration-200 flex items-center justify-center space-x-2"
                 onClick={handleGoogleSignUp}
               >
@@ -359,7 +359,7 @@ const Signup = () => {
                 <span>Registrarse con Google</span>
               </button>
               <button
-                type="submit"
+                type="button"
                 className="btn-secondary auth-btn social-auth-btn bg-white/60 w-full py-2 text-base font-semibold tracking-wide rounded-md text-[#02321A] hover:text-white hover:bg-[#02321A] duration-200 flex items-center justify-center space-x-2"
                 onClick={handleFacebookSignUp}
               >
