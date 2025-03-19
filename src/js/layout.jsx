@@ -105,11 +105,15 @@ const Layout = () => {
                     }
                 />
 
-                <Route path = "/pago" element = {<BotonPaypal/>}/>
-
-                <Route path = "/exitosa" element= {<TransaccionExitosa/>}/>
-                <Route path ="" element = {<NotFound/>}/>
-
+                <Route
+                    path="/galeria"
+                    element={
+                        <>
+                            <Navbar />
+                            <Galeria /> {/* Renderiza el componente Naturaleza */}
+                        </>
+                    }
+                />
             </Routes>
         </BrowserRouter>
     );
