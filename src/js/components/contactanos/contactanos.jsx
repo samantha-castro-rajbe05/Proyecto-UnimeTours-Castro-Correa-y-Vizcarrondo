@@ -44,7 +44,7 @@ const Contactanos = () => {
             <div className="flex items-center gap-4">
               <FaEnvelope className="text-xl text-[#143A27]" />
               <span className="text-lg text-[#143A27]">
-                contacto@unimetours.com
+                unimettours@gmail.com
               </span>
             </div>
           </div>
