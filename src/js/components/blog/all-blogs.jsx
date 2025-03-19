@@ -1,29 +1,32 @@
 import React from "react";
+import Blog from "./blog.jsx";
+import AddBlog from "./add-blog.jsx";
 
-const AllBlogs = ({ onBack }) => {
-  const blogs = [
-    {
-      id: 1,
-      title: "Explorando Sabas Nieves",
-      description:
-        "El día de hoy 09/03/2025 realicé la ruta de senderismo dictada por el guía Juan Pérez. Fue una experiencia increíble...",
-      image: "blog1.jpg",
-    },
-    {
-      id: 2,
-      title: "Aventura en Pico el Ávila",
-      description:
-        "Una aventura inolvidable subiendo al Pico el Ávila. Conoce los detalles de esta ruta desafiante y emocionante...",
-      image: "blog2.jpg",
-    },
-    {
-      id: 3,
-      title: "Descubriendo La Cascada",
-      description:
-        "Descubre la belleza de la ruta La Cascada, una experiencia única llena de paisajes impresionantes y naturaleza...",
-      image: "blog3.jpg",
-    },
-  ];
+const AllBlogs = ({ blogs, onBack }) => {
+  
+  // const blogs = [
+  //   {
+  //     id: 1,
+  //     title: "Explorando Sabas Nieves",
+  //     description:
+  //       "El día de hoy 09/03/2025 realicé la ruta de senderismo dictada por el guía Juan Pérez. Fue una experiencia increíble...",
+  //     image: "blog1.jpg",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "Aventura en Pico el Ávila",
+  //     description:
+  //       "Una aventura inolvidable subiendo al Pico el Ávila. Conoce los detalles de esta ruta desafiante y emocionante...",
+  //     image: "blog2.jpg",
+  //   },
+  //   {
+  //     id: 3,
+  //     title: "Descubriendo La Cascada",
+  //     description:
+  //       "Descubre la belleza de la ruta La Cascada, una experiencia única llena de paisajes impresionantes y naturaleza...",
+  //     image: "blog3.jpg",
+  //   },
+  // ];
 
   return (
     <div className="all-blogs-page px-4 py-10 bg-[#F5F5F5]">
@@ -32,11 +35,14 @@ const AllBlogs = ({ onBack }) => {
       </h1>
       
       <div className="blogs-container max-w-5xl mx-auto bg-[#D4D9D8] p-5 rounded-xl shadow-lg border-4 border-[#143A27]">
-        {blogs.map((blog) => (
-          <div
-            key={blog.id}
-            className="blog-item flex flex-col md:flex-row items-center bg-white rounded-xl shadow-md mb-6 p-5 border border-gray-300 transition duration-300 hover:shadow-xl"
-          >
+        {blogs.length === 0 ? (
+          <p className="text-center text-[#143A27]">No hay blogs añadidos.</p>
+        ) : (
+          blogs.map((blog) => (
+            <div
+              key={blog.id}
+              className="blog-item flex flex-col md:flex-row items-center bg-white rounded-xl shadow-md mb-6 p-5 border border-gray-300 transition duration-300 hover:shadow-xl"
+            >
             <img
               src={blog.image}
               alt={blog.title}
@@ -53,7 +59,8 @@ const AllBlogs = ({ onBack }) => {
               </p>
             </div>
           </div>
-        ))}
+          ))
+        )}
       </div>
 
       {/* Botón de volver */}
