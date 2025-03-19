@@ -110,12 +110,13 @@ const Rutas = ({ rol }) => {
     const agregarRuta = () => {
         setRutas([...rutas, nuevaRuta]);
         setNuevaRuta({
+            nombre: "",
             imagen: "",
             tiempo: "",
             dificultad: "",
             altura: "",
             distancia: "",
-            nombre: "",
+            decripcion:"",
         }); // Limpiar el formulario
     };
 
