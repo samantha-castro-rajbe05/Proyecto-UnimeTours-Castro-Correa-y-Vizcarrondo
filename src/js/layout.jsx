@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { App } from "./views/App.jsx";
 import injectContext from "./store/appContext.jsx";
@@ -12,8 +12,10 @@ import Naturaleza from "./components/naturaleza/naturaleza.jsx"; // Importa el c
 import Label from "./components/login-signup/label.jsx";
 import { VerRutas } from "./components/Rutas/verruta.jsx";
 import Footer from "./components/footer.jsx";
+import Galeria from "./components/galeria/galeria.jsx"; // Importa el componente Galería
+import Contactanos from "./components/contactanos/contactanos.jsx"; // Importa el componente Contactanos
 import BotonPaypal from "./components/paypal/Botonpaypal.jsx";
-import RutasCliente from "./components/Rutas/rutasprueba.jsx";
+import RutasCliente from "./components/Rutas/rutasprueb
 
 const Layout = () => {
     const basename = import.meta.env.VITE_BASENAME || "";
@@ -26,8 +28,7 @@ const Layout = () => {
                         <>
                             <Navbar />
                             <App />
-                            <Footer/>
-                            
+                            <Footer />
                         </>
                     }
                 />
@@ -47,20 +48,18 @@ const Layout = () => {
                         </>
                     }
                 />
-                      
                 <Route
                     path="/rutas"
                     element={
                         <>
+
                             <Navbar/>
                             <RutasCliente />
                             <Footer/>
-                            
+                           
                         </>
                     }
                 />
-                   
-         
                 <Route
                     path="/blog"
                     element={
@@ -70,27 +69,22 @@ const Layout = () => {
                         </>
                     }
                 />
-
                 <Route
-                    path = "/verruta"
-                    element= {
-
+                    path="/verruta"
+                    element={
                         <>
-                            <Navbar/>
-                            <VerRutas/>
-                            <Footer/>
-
+                            <Navbar />
+                            <VerRutas />
+                            <Footer />
                         </>
                     }
                 />
-
-        
                 <Route
                     path="/feedback"
                     element={
                         <>
                             <Navbar />
-                            <Feedback /> {/* Renderiza el componente Feedback */}
+                            <Feedback />
                         </>
                     }
                 />
@@ -99,7 +93,7 @@ const Layout = () => {
                     element={
                         <>
                             <Navbar />
-                            <Naturaleza /> {/* Renderiza el componente Naturaleza */}
+                            <Naturaleza />
                         </>
                     }
                 />
@@ -109,7 +103,18 @@ const Layout = () => {
                     element={
                         <>
                             <Navbar />
-                            <Galeria /> {/* Renderiza el componente Naturaleza */}
+                            <Galeria />
+                            <Footer />
+                        </>
+                    }
+                />
+                <Route
+                    path="/contactanos"
+                    element={
+                        <>
+                            <Navbar />
+                            <Contactanos />
+                            <Footer />
                         </>
                     }
                 />

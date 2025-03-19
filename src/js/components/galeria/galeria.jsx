@@ -16,11 +16,11 @@ const Galeria = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#F5F5F5] px-10 py-10">
-      <h1 className="text-4xl font-bold text-[#143A27] text-center mb-10">Galería</h1>
+    <div className="flex flex-col min-h-screen bg-[#F5F5F5] px-4 py-10">
+      <h1 className="text-3xl md:text-4xl font-bold text-[#143A27] text-center mb-10">Galería</h1>
 
-      {/* Contenedor de la galería */}
-      <div className="grid grid-cols-3 gap-4">
+      {/* Contenedor de la galería responsive */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {/* Cuadro para añadir imágenes */}
         <div className="flex items-center justify-center bg-gray-300 border-4 border-[#143A27] rounded-lg shadow-md h-40 cursor-pointer">
           <label htmlFor="addImage" className="flex flex-col items-center justify-center cursor-pointer">
