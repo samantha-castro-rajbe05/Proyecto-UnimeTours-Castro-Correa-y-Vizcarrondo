@@ -52,7 +52,7 @@ const Contactanos = () => {
           {/* Imagen del Ávila */}
           <div className="rounded-xl overflow-hidden shadow-lg">
             <img
-              src="https://upload.wikimedia.org/wikipedia/commons/3/3a/El_%C3%81vila_desde_Caracas.jpg"
+              src="Foto-contactanos.png"
               alt="El Ávila"
               className="w-full h-64 object-cover"
             />
