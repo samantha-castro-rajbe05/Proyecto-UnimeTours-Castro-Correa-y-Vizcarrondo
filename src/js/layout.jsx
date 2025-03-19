@@ -13,6 +13,8 @@ import Label from "./components/login-signup/label.jsx";
 import Rutas from "./components/Rutas/rutas.jsx";
 import { VerRutas } from "./components/Rutas/verruta.jsx";
 import Footer from "./components/footer.jsx";
+import TransaccionExitosa from "./components/paypal/TransaccionExitosa.jsx"
+import BotonPaypal from "./components/paypal/Botonpaypal.jsx";
 
 const Layout = () => {
     const basename = import.meta.env.VITE_BASENAME || "";
@@ -102,6 +104,11 @@ const Layout = () => {
                         </>
                     }
                 />
+
+                <Route path = "/pago" element = {<BotonPaypal/>}/>
+
+                <Route path = "/exitosa" element= {<TransaccionExitosa/>}/>
+                <Route path ="" element = {<NotFound/>}/>
 
             </Routes>
         </BrowserRouter>
