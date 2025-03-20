@@ -44,10 +44,15 @@ const AllBlogs = ({ blogs, onBack }) => {
               className="blog-item flex flex-col md:flex-row items-center bg-white rounded-xl shadow-md mb-6 p-5 border border-gray-300 transition duration-300 hover:shadow-xl"
             >
             <img
-              src={blog.image}
-              alt={blog.title}
-              className="w-full md:w-[40%] h-48 object-cover rounded-lg mb-4 md:mb-0 md:mr-6"
-            />
+  src={blog.image}
+  alt={blog.title}
+  className="..."
+  onError={(e) => {
+    e.target.onerror = null; // Evita bucles
+    e.target.src = '/imagen-default.jpg';
+    console.error('Error cargando:', blog.image);
+  }}
+/>
             <div className="text-content md:w-[60%]">
               <h2 className="text-xl md:text-2xl font-bold text-[#143A27] mb-2">
                 {blog.title}
