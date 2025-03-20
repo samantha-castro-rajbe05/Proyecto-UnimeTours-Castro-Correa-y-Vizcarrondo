@@ -1,33 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { collection, addDoc, getDocs, deleteDoc, doc } from "firebase/firestore";
 import { db, auth } from "../../firebaseConfig.js"; 
-import Footer from "../footer.jsx"; // Importa el componente Footer
 import { onAuthStateChanged } from "firebase/auth";
 
 const Feedback = () => {
-  //const currentUserId = 1; // Simula el ID del usuario actualmente registrado
   const [currentUser, setCurrentUser] = useState(null);
   const [feedbacks, setFeedbacks] = useState([]);
-  // const [feedbacks, setFeedbacks] = useState([
-  //   {
-  //     id: 1,
-  //     userId: 1,
-  //     rating: 5,
-  //     review: "¡Excelente experiencia! Todo fue perfecto.",
-  //   },
-  //   {
-  //     id: 2,
-  //     userId: 2,
-  //     rating: 4,
-  //     review: "Muy buena atención, aunque hubo algunos retrasos.",
-  //   },
-  //   {
-  //     id: 3,
-  //     userId: 3,
-  //     rating: 3,
-  //     review: "La experiencia fue buena, pero podría mejorar en algunos aspectos.",
-  //   },
-  // ]);
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState("");
   const [showForm, setShowForm] = useState(false);
@@ -72,30 +50,17 @@ const Feedback = () => {
       review,
     };
 
-
-  //   const newFeedback = { id: feedbacks.length + 1, userId: currentUserId, rating, review };
-  //   setFeedbacks([newFeedback, ...feedbacks]);
-  //   setRating(0);
-  //   setReview("");
-  //   setShowForm(false);
-  // };
-
-  try {
-    // Añadir feedback a Firestore
-    const docRef = await addDoc(collection(db, "feedbacks"), newFeedback);
-    setFeedbacks([{ id: docRef.id, ...newFeedback }, ...feedbacks]);
-    setRating(0);
-    setReview("");
-    setShowForm(false);
-  } catch (error) {
-    console.error("Error al añadir feedback:", error);
-  }
-};
-
-  // const handleDelete = (id) => {
-  //   const updatedFeedbacks = feedbacks.filter((feedback) => feedback.id !== id);
-  //   setFeedbacks(updatedFeedbacks);
-  // };
+    try {
+      // Añadir feedback a Firestore
+      const docRef = await addDoc(collection(db, "feedbacks"), newFeedback);
+      setFeedbacks([{ id: docRef.id, ...newFeedback }, ...feedbacks]);
+      setRating(0);
+      setReview("");
+      setShowForm(false);
+    } catch (error) {
+      console.error("Error al añadir feedback:", error);
+    }
+  };
 
   const handleDelete = async (id) => {
     try {
@@ -214,9 +179,6 @@ const Feedback = () => {
           )}
         </div>
       </div>
-
-      {/* Footer */}
-      <Footer />
     </div>
   );
 };
