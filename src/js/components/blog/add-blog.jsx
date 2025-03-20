@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import Blog from "./blog.jsx";
 import AllBlogs from "./all-blogs.jsx";
+import handleAddBlog from "./blog.jsx";
 
 const AddBlog = ({ onBack, onAddBlog  }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [image, setImage] = useState(null); // Estado para almacenar la imagen seleccionada
+  const [image, setImage] = useState({ file: null, url: "" }) // Estado para almacenar la imagen seleccionada
 
 
   const handleSubmit = async (e) => {
     e.preventDefault(); 
+
     if (!title.trim() || !description.trim()) {
       alert("Texto vacío no permitido");
       return;
@@ -25,7 +27,12 @@ const AddBlog = ({ onBack, onAddBlog  }) => {
     } catch (error) {
       console.error("Error en formulario:", error);
     }
+    
   };
+
+
+
+  
 
     // const [blogs, setBlogs] = useState([]);
     // const [showForm, setShowForm] = useState(false);
@@ -65,20 +72,28 @@ const AddBlog = ({ onBack, onAddBlog  }) => {
     // }
   // };
 
+
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
-  if (!file) return;
+    if (e.target.files[0]) {
+      setImage({
+        file: e.target.files[0],
+        url: URL.createObjectURL(e.target.files[0]),
+      });
+    }}
 
-  // Validar formatos permitidos
-  const allowedTypes = ['image/jpeg', 'image/png'];
-  if (!allowedTypes.includes(file.type)) {
-    alert('Solo se permiten JPG/PNG');
-    e.target.value = '';
-    return;
-  }
+  //   const file = e.target.files[0];
+  //   if (!file) return;
 
-  setImage(file); 
-  };
+  //   // Validar formatos permitidos
+  //   const allowedTypes = ['image/jpg', 'image/png'];
+  //   if (!allowedTypes.includes(file.type)) {
+  //     alert('Solo se permiten JPG/PNG');
+  //     e.target.value = '';
+  //     return;
+  //   }
+  //   console.log(file, typeof file);
+  //   setImage({ file });
+  // };
 
   return (
     <div className="add-blog-page px-10 py-10 bg-[#F5F5F5]">
@@ -109,7 +124,7 @@ const AddBlog = ({ onBack, onAddBlog  }) => {
           <label className="block text-[#143A27] font-bold mb-2">Imagen</label>
           <input
   type="file"
-  accept="image/png, image/jpeg, image/webp" // <- Añade image/png
+  accept="image/png, image/jpg" // <- Añade image/png
   className="w-full p-3 border border-gray-300 rounded-lg"
   onChange={handleImageChange}
 />
