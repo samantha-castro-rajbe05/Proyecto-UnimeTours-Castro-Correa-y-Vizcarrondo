@@ -1,50 +1,111 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { collection, addDoc, getDocs, deleteDoc, doc } from "firebase/firestore";
+import { db, auth } from "../../firebaseConfig.js"; 
 import Footer from "../footer.jsx"; // Importa el componente Footer
+import { onAuthStateChanged } from "firebase/auth";
 
 const Feedback = () => {
-  const currentUserId = 1; // Simula el ID del usuario actualmente registrado
-
-  const [feedbacks, setFeedbacks] = useState([
-    {
-      id: 1,
-      userId: 1,
-      rating: 5,
-      review: "¡Excelente experiencia! Todo fue perfecto.",
-    },
-    {
-      id: 2,
-      userId: 2,
-      rating: 4,
-      review: "Muy buena atención, aunque hubo algunos retrasos.",
-    },
-    {
-      id: 3,
-      userId: 3,
-      rating: 3,
-      review: "La experiencia fue buena, pero podría mejorar en algunos aspectos.",
-    },
-  ]);
+  //const currentUserId = 1; // Simula el ID del usuario actualmente registrado
+  const [currentUser, setCurrentUser] = useState(null);
+  const [feedbacks, setFeedbacks] = useState([]);
+  // const [feedbacks, setFeedbacks] = useState([
+  //   {
+  //     id: 1,
+  //     userId: 1,
+  //     rating: 5,
+  //     review: "¡Excelente experiencia! Todo fue perfecto.",
+  //   },
+  //   {
+  //     id: 2,
+  //     userId: 2,
+  //     rating: 4,
+  //     review: "Muy buena atención, aunque hubo algunos retrasos.",
+  //   },
+  //   {
+  //     id: 3,
+  //     userId: 3,
+  //     rating: 3,
+  //     review: "La experiencia fue buena, pero podría mejorar en algunos aspectos.",
+  //   },
+  // ]);
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState("");
   const [showForm, setShowForm] = useState(false);
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    // Verificar el estado de autenticación del usuario
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
+    });
+
+    // Cargar feedbacks desde Firestore al montar el componente
+    const fetchFeedbacks = async () => {
+      const feedbacksCollection = collection(db, "feedbacks");
+      const feedbacksSnapshot = await getDocs(feedbacksCollection);
+      const feedbacksList = feedbacksSnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setFeedbacks(feedbacksList);
+    };
+
+    fetchFeedbacks();
+
+    return () => unsubscribe();
+  }, []);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (rating === 0 || review.trim() === "") {
       alert("Por favor, selecciona una calificación y escribe una reseña.");
       return;
     }
 
-    const newFeedback = { id: feedbacks.length + 1, userId: currentUserId, rating, review };
-    setFeedbacks([newFeedback, ...feedbacks]);
+    if (!currentUser) {
+      alert("Debes estar autenticado para enviar un feedback.");
+      return;
+    }
+
+    const newFeedback = {
+      userId: currentUser.uid,
+      rating,
+      review,
+    };
+
+
+  //   const newFeedback = { id: feedbacks.length + 1, userId: currentUserId, rating, review };
+  //   setFeedbacks([newFeedback, ...feedbacks]);
+  //   setRating(0);
+  //   setReview("");
+  //   setShowForm(false);
+  // };
+
+  try {
+    // Añadir feedback a Firestore
+    const docRef = await addDoc(collection(db, "feedbacks"), newFeedback);
+    setFeedbacks([{ id: docRef.id, ...newFeedback }, ...feedbacks]);
     setRating(0);
     setReview("");
     setShowForm(false);
-  };
+  } catch (error) {
+    console.error("Error al añadir feedback:", error);
+  }
+};
 
-  const handleDelete = (id) => {
-    const updatedFeedbacks = feedbacks.filter((feedback) => feedback.id !== id);
-    setFeedbacks(updatedFeedbacks);
+  // const handleDelete = (id) => {
+  //   const updatedFeedbacks = feedbacks.filter((feedback) => feedback.id !== id);
+  //   setFeedbacks(updatedFeedbacks);
+  // };
+
+  const handleDelete = async (id) => {
+    try {
+      // Eliminar feedback de Firestore
+      await deleteDoc(doc(db, "feedbacks", id));
+      const updatedFeedbacks = feedbacks.filter((feedback) => feedback.id !== id);
+      setFeedbacks(updatedFeedbacks);
+    } catch (error) {
+      console.error("Error al eliminar feedback:", error);
+    }
   };
 
   return (
@@ -52,7 +113,7 @@ const Feedback = () => {
       <div className="flex-grow px-10 py-10 flex flex-col-reverse">
         {/* Botón para mostrar el formulario al final */}
         <div className="flex justify-center mt-10">
-          {!showForm && (
+          {currentUser && !showForm && (
             <button
               className="bg-[#143A27] text-white py-2 px-6 rounded-lg hover:bg-[#96A89C] transition duration-300"
               onClick={() => setShowForm(true)}
@@ -140,7 +201,7 @@ const Feedback = () => {
                 <p className="text-base font-light text-[#143A27] mb-4">
                   {feedback.review}
                 </p>
-                {feedback.userId === currentUserId && (
+                {currentUser && feedback.userId === currentUser.uid && (
                   <button
                     className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition duration-300 self-end"
                     onClick={() => handleDelete(feedback.id)}
