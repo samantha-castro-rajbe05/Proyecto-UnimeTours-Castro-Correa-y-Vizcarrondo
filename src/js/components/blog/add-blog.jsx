@@ -66,7 +66,18 @@ const AddBlog = ({ onBack, onAddBlog  }) => {
   // };
 
   const handleImageChange = (e) => {
-    setImage(e.target.files[0]); // Almacena la imagen seleccionada en el estado
+    const file = e.target.files[0];
+  if (!file) return;
+
+  // Validar formatos permitidos
+  const allowedTypes = ['image/jpeg', 'image/png'];
+  if (!allowedTypes.includes(file.type)) {
+    alert('Solo se permiten JPG/PNG');
+    e.target.value = '';
+    return;
+  }
+
+  setImage(file); 
   };
 
   return (
@@ -97,11 +108,11 @@ const AddBlog = ({ onBack, onAddBlog  }) => {
         <div className="mb-6">
           <label className="block text-[#143A27] font-bold mb-2">Imagen</label>
           <input
-            type="file"
-            accept="image/*"
-            className="w-full p-3 border border-gray-300 rounded-lg"
-            onChange={handleImageChange}
-          />
+  type="file"
+  accept="image/png, image/jpeg, image/webp" // <- Añade image/png
+  className="w-full p-3 border border-gray-300 rounded-lg"
+  onChange={handleImageChange}
+/>
           {image && (
             <p className="text-sm text-[#143A27] mt-2">Imagen seleccionada: {image.name}</p>
           )}

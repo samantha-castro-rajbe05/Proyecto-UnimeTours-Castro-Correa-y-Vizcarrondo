@@ -40,27 +40,16 @@ const Blog = () => {
       setCurrentUser(user);
     });
   
+  
     const fetchBlogs = async () => {
-      try {
-        const blogsCollection = collection(db, "blogs");
-        // Crea la consulta con ordenamiento
-        const q = query(blogsCollection, orderBy("createdAt", "desc")); // <-- Usa las funciones importadas
-        
-        const blogsSnapshot = await getDocs(q);
-        const blogsList = blogsSnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setBlogs(blogsList);
-      } catch (error) {
-        console.error("Error cargando blogs:", error);
-      }
-    };
-  
-    fetchBlogs();
-  
-    return () => unsubscribe();
-  }, [view]); // Agrega [view] como dependencia
+      const q = query(collection(db, "blogs"), orderBy("createdAt", "desc"));
+    const snapshot = await getDocs(q);
+    setBlogs(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+  };
+
+  fetchBlogs();
+  return () => unsubscribe();
+}, []);
 
   const handleAddBlog = async (blog) => {
     if (!currentUser) {
@@ -101,6 +90,7 @@ const Blog = () => {
     // } catch (error) {
     //   console.error("Error al añadir blog:", error);
     // }
+
     const docRef = await addDoc(collection(db, "blogs"), blogData);
     
     //actualizamos estado
@@ -111,8 +101,8 @@ const Blog = () => {
 
     setView("Blog");
 
-  } catch (error) {
-    console.error("Error detallado:", error);
+    } catch (error) {
+    console.error("Error:", error);
     alert(`Error al guardar: ${error.message}`);
   }
   };
@@ -134,10 +124,14 @@ const Blog = () => {
                 className="flex flex-col md:flex-row items-center bg-[#D4D9D8] border-2 border-[#143A27] rounded-xl shadow-lg overflow-hidden mb-8"
               >
                 <img
-                  src={blog.image}
-                  alt={blog.title}
-                  className="w-full md:w-[40%] h-64 object-cover"
-                />
+  src={blog.image || '/placeholder-image.jpg'}
+  alt={blog.title}
+  className="w-full md:w-[40%] h-48 object-cover animate-pulse"
+  onError={(e) => {
+    e.target.onerror = null;
+    e.target.src = '/error-image.jpg';
+  }}
+/>
                 <div className="p-6 md:w-[60%]">
                   <h2 className="text-2xl md:text-3xl font-bold text-[#143A27] mb-4">
                     {blog.title}
