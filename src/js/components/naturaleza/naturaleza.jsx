@@ -81,8 +81,7 @@ const Naturaleza = () => {
         </div>
       </div>
 
-      {/* Footer fijo abajo */}
-      <Footer />
+      
     </div>
   );
 };
