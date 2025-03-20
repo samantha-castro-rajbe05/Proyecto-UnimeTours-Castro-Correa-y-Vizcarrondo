@@ -1,5 +1,5 @@
-import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { App } from "./views/App.jsx";
 import injectContext from "./store/appContext.jsx";
 import Navbar from "./components/navbar.jsx";
@@ -17,7 +17,30 @@ import BotonPaypal from "./components/paypal/Botonpaypal.jsx";
 import Exitosa from "./components/paypal/Exitosa.jsx"; // Ajusta la ruta si es necesario
 import Rutas from "./components/Rutas/rutasprueba.jsx";
 import NotFound from "./components/notfound/NotFound.jsx"; // Ajusta la ruta si es necesario
+import AdminPage from "./components/admin/adminpage.jsx"; // Importa el componente AdminPage
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth, db } from "./firebaseConfig";
+import { doc, getDoc } from "firebase/firestore";
 
+const AdminRoute = ({ element }) => {
+  const [user] = useAuthState(auth);
+
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    const checkAdmin = async () => {
+      if (user) {
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+        if (userDoc.exists() && userDoc.data().role === "admin") {
+          setIsAdmin(true);
+        }
+      }
+    };
+    checkAdmin();
+  }, [user]);
+
+  return isAdmin ? element : <Navigate to="/" />;
+};
 
 const Layout = () => {
     const basename = import.meta.env.VITE_BASENAME || "";
@@ -57,6 +80,7 @@ const Layout = () => {
                         <>
                             <Navbar />
                             <Blog />
+                            <Footer />
                         </>
                     }
                 />
@@ -76,6 +100,7 @@ const Layout = () => {
                         <>
                             <Navbar />
                             <Feedback />
+                            <Footer />
                         </>
                     }
                 />
@@ -85,6 +110,7 @@ const Layout = () => {
                         <>
                             <Navbar />
                             <Naturaleza />
+                            <Footer />
                         </>
                     }
                 />
@@ -126,6 +152,7 @@ const Layout = () => {
 
                 
                 <Route path ="/noencontrado" element = {<NotFound/>}/>
+                <Route path="/admin" element={<AdminRoute element={<AdminPage />} />} />
 
 
             </Routes>
