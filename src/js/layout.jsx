@@ -18,6 +18,7 @@ import Exitosa from "./components/paypal/Exitosa.jsx"; // Ajusta la ruta si es n
 import Rutas from "./components/Rutas/rutasprueba.jsx";
 import NotFound from "./components/notfound/NotFound.jsx"; // Ajusta la ruta si es necesario
 
+
 const Layout = () => {
     const basename = import.meta.env.VITE_BASENAME || "";
     return (
