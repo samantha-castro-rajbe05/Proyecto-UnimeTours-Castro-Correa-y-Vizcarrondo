@@ -15,7 +15,7 @@ import Footer from "./components/footer.jsx";
 import Galeria from "./components/galeria/galeria.jsx"; // Importa el componente Galería
 import Contactanos from "./components/contactanos/contactanos.jsx"; // Importa el componente Contactanos
 import BotonPaypal from "./components/paypal/Botonpaypal.jsx";
-import RutasCliente from "./components/Rutas/rutasprueb
+import RutasCliente from "./components/Rutas/rutasprueba.jsx";
 
 const Layout = () => {
     const basename = import.meta.env.VITE_BASENAME || "";
