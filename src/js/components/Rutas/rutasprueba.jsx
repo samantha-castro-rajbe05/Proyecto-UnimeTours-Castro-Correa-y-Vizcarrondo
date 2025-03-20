@@ -1,84 +1,10 @@
 import React, { useState } from "react";
+import { RutasAdministrador } from "./RutasAdministrador.jsx"; // Asegúrate de que la ruta sea correcta
+//import { useNavigate } from "react-router-dom"; // Importa useNavigate
 
-// Componente para la vista del cliente
-const RutasCliente = ({ rutas, reservarRuta }) => {
-    return (
-        <div className="flex flex-wrap gap-4">
-            {rutas.map((ruta, index) => (
-                <div key={index} className="card bg-[#D4D9D8] shadow-md rounded-lg p-4 w-80">
-                    <img className="image w-full h-40 object-cover rounded-t-lg" src={ruta.imagen} alt={ruta.nombre} />
-                    <div className="body">
-                        <div className="text">
-                            <div className="text-2xl font-bold font-serif roboto-parrafos text-[#143A27] mb-2">{ruta.tiempo}</div>
-                            <ul className="details-list font-light font-serif roboto-parrafos text-sm">
-                                <li>Dificultad: {ruta.dificultad}</li>
-                                <li>Altura: {ruta.altura}</li>
-                                <li>Distancia: {ruta.distancia}</li>
-                                <li>Ruta: {ruta.nombre}</li>
-                            </ul>
-                            <div className="text-center mt-3">
-                                <button className="bg-[#96A89C] text-white font-semibold py-2 px-6 rounded-lg hover:bg-[#143A27] transition duration-300 mr-2" onClick={() => (window.location.href = "/verruta")}>
-                                    Más información
-                                </button>
-                                <button className="bg-[#96A89C] text-white font-semibold py-2 px-6 rounded-lg hover:bg-[#143A27] transition duration-300" onClick={() => reservarRuta(index)}>
-                                    Reservar
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            ))}
-        </div>
-    );
-};
-
-// Componente para la vista del administrador
-const RutasAdministrador = ({ rutas, agregarRuta, eliminarRuta, nuevaRuta, handleChange }) => {
-    return (
-        <div>
-            {/* Formulario para agregar nuevas rutas */}
-            <div className="mb-4">
-                <input type="text" name="imagen" placeholder="URL de la imagen" value={nuevaRuta.imagen} onChange={handleChange} className="border p-2 mr-2" />
-                <input type="text" name="tiempo" placeholder="Tiempo" value={nuevaRuta.tiempo} onChange={handleChange} className="border p-2 mr-2" />
-                <input type="text" name="dificultad" placeholder="Dificultad" value={nuevaRuta.dificultad} onChange={handleChange} className="border p-2 mr-2" />
-                <input type="text" name="altura" placeholder="Altura" value={nuevaRuta.altura} onChange={handleChange} className="border p-2 mr-2" />
-                <input type="text" name="distancia" placeholder="Distancia" value={nuevaRuta.distancia} onChange={handleChange} className="border p-2 mr-2" />
-                <input type="text" name="nombre" placeholder="Nombre de la ruta" value={nuevaRuta.nombre} onChange={handleChange} className="border p-2 mr-2" />
-                <button onClick={agregarRuta} className="bg-[#96A89C] text-white font-semibold py-2 px-6 rounded-lg hover:bg-[#143A27] transition duration-300">
-                    Agregar Ruta
-                </button>
-            </div>
-
-            {/* Mapeo de las rutas para mostrar las tarjetas y el botón de eliminar */}
-            <div className="flex flex-wrap gap-4">
-                {rutas.map((ruta, index) => (
-                    <div key={index} className="card bg-[#D4D9D8] shadow-md rounded-lg p-4 w-80">
-                        <img className="image w-full h-40 object-cover rounded-t-lg" src={ruta.imagen} alt={ruta.nombre} />
-                        <div className="body">
-                            <div className="text">
-                                <div className="text-2xl font-bold font-serif roboto-parrafos text-[#143A27] mb-2">{ruta.tiempo}</div>
-                                <ul className="details-list font-light font-serif roboto-parrafos text-sm">
-                                    <li>Dificultad: {ruta.dificultad}</li>
-                                    <li>Altura: {ruta.altura}</li>
-                                    <li>Distancia: {ruta.distancia}</li>
-                                    <li>Ruta: {ruta.nombre}</li>
-                                </ul>
-                                <div className="text-center mt-3">
-                                    <button className="bg-red-500 text-white font-semibold py-2 px-6 rounded-lg hover:bg-red-700 transition duration-300" onClick={() => eliminarRuta(index)}>
-                                        Eliminar
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                ))}
-            </div>
-        </div>
-    );
-};
-
-// Componente principal Rutas
 const Rutas = ({ rol }) => {
+   // const navigate = useNavigate(); // Inicializa useNavigate
+    
     // Estado inicial para las rutas
     const [rutas, setRutas] = useState([
         {
@@ -116,7 +42,7 @@ const Rutas = ({ rol }) => {
             dificultad: "",
             altura: "",
             distancia: "",
-            decripcion:"",
+            decripcion: "",
         }); // Limpiar el formulario
     };
 
@@ -128,8 +54,15 @@ const Rutas = ({ rol }) => {
 
     // Función para simular la reserva de una ruta
     const reservarRuta = (index) => {
-        alert(`Ruta "${rutas[index].nombre}" reservada.`);
-        // Aquí iría la lógica para manejar la reserva (por ejemplo, una llamada a una API)
+        if (rutas && rutas[index]) {
+            const rutaSeleccionada = rutas[index];
+            // Almacena la ruta seleccionada en el estado o en el contexto (si usas Context API)
+            // Para este ejemplo, usaremos localStorage para simplificar
+            localStorage.setItem("rutaSeleccionada", JSON.stringify(rutaSeleccionada));
+            navigate("/paypal"); // Navega al componente de PayPal
+        } else {
+            console.error("Error: Ruta no encontrada.");
+       }
     };
 
     // Renderizar la vista correspondiente según el rol del usuario
@@ -147,8 +80,34 @@ const Rutas = ({ rol }) => {
                     </section>
                 </section>
                 <section>
-                    <h3 className="text-3xl font-bold mb-4">Vista del Cliente</h3>
-                    <RutasCliente rutas={rutas} reservarRuta={reservarRuta} />
+                    <h3 className="text-3xl font-bold mb-4"></h3>
+                    <div className="flex flex-wrap gap-4">
+                        {rutas.map((ruta, index) => (
+                            <div key={index} className="card bg-[#D4D9D8] shadow-md rounded-lg p-4 w-80">
+                                <img className="image w-full h-40 object-cover rounded-t-lg" src={ruta.imagen} alt={ruta.nombre} />
+                                <div className="body">
+                                    <div className="text">
+                                        <div className="text-2xl font-bold font-serif roboto-parrafos text-[#143A27] mb-2">{ruta.tiempo}</div>
+                                        <ul className="details-list font-light font-serif roboto-parrafos text-sm">
+                                            <li>Dificultad: {ruta.dificultad}</li>
+                                            <li>Altura: {ruta.altura}</li>
+                                            <li>Distancia: {ruta.distancia}</li>
+                                            <li>Ruta: {ruta.nombre}</li>
+                                        </ul>
+                                        <div className="text-center mt-3">
+                                            <button className="bg-[#96A89C] text-white font-semibold py-2 px-6 rounded-lg hover:bg-[#143A27] transition duration-300 mr-2" onClick={() => (window.location.href = "/verruta")}>
+                                                Más información
+                                            </button>
+                                            
+                                            <button className="bg-[#96A89C] text-white font-semibold py-2 px-6 rounded-lg hover:bg-[#143A27] transition duration-300" onClick={() => reservarRuta(index)}>
+                                                Reservar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </section>
             </div>
         );
@@ -166,14 +125,17 @@ const Rutas = ({ rol }) => {
                     </section>
                 </section>
                 <section>
-                    <h3 className="text-3xl font-bold mb-4">Vista del Admin</h3>
-                    <RutasAdministrador rutas={rutas}
-                    agregarRuta={agregarRuta}
-                    eliminarRuta={eliminarRuta}
-                    nuevaRuta={nuevaRuta}
-                    handleChange={handleChange} />
+                    <h3 className="text-3xl font-bold mb-4"></h3>
+                    <RutasAdministrador
+                        rutas={rutas}
+                        agregarRuta={agregarRuta}
+                        eliminarRuta={eliminarRuta}
+                        nuevaRuta={nuevaRuta}
+                        handleChange={handleChange}
+                    />
                 </section>
             </div>
-        )
+        );
     }
-}
+};
+export default Rutas;
