@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
-import { App } from "./views/App.jsx";
+import  App  from "./views/App.jsx";
 import injectContext from "./store/appContext.jsx";
 import Navbar from "./components/navbar.jsx";
 import Login from "./components/login-signup/login.jsx";
@@ -17,7 +17,7 @@ import BotonPaypal from "./components/paypal/Botonpaypal.jsx";
 import Exitosa from "./components/paypal/Exitosa.jsx"; // Ajusta la ruta si es necesario
 import Rutas from "./components/Rutas/rutasprueba.jsx";
 import NotFound from "./components/notfound/NotFound.jsx"; // Ajusta la ruta si es necesario
-import EditProfile from "./components/editarPerfil/editarPerfil.jsx";
+//import EditProfile from "./components/editarPerfil/editarPerfil.jsx";
 import AdminPage from "./components/admin/adminpage.jsx"; // Importa el componente AdminPage
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "./firebaseConfig";
@@ -43,134 +43,352 @@ const AdminRoute = ({ element }) => {
   return isAdmin ? element : <Navigate to="/" />;
 };
 
-const Layout = () => {
+const Layout = ({role}) => {
     const basename = import.meta.env.VITE_BASENAME || "";
-    return (
-        <BrowserRouter basename={basename}>
-            <Routes>
-                <Route
-                    path="/"
-                    element={
-                        <>
-                            <Navbar />
-                            <App />
-                            <Footer />
-                        </>
-                    }
-                />
-                <Route
-                    path="/login"
-                    element={
-                        <>
-                            <Login />
-                        </>
-                    }
-                />
-                <Route
-                    path="/signup"
-                    element={
-                        <>
-                            <Signup />
-                        </>
-                    }
-                />
-               
-                <Route
-                    path="/blog"
-                    element={
-                        <>
-                            <Navbar />
-                            <Blog />
-                            <Footer />
-                        </>
-                    }
-                />
-               <Route
-                    path="/verruta"
-                    element={
-                        <>
-                            <Navbar />
-                            <VerRutas />
-                            <Footer />
-                        </>
-                    }
-                /> 
-                <Route
-                    path="/feedback"
-                    element={
-                        <>
-                            <Navbar />
-                            <Feedback />
-                            <Footer />
-                        </>
-                    }
-                />
-                <Route
-                    path="/naturaleza"
-                    element={
-                        <>
-                            <Navbar />
-                            <Naturaleza />
-                            <Footer />
-                        </>
-                    }
-                />
 
+    if (role === "cliente") {
+        return (
+            <BrowserRouter basename={basename}>
+                <Routes>
+                    <Route
+                        path="/"
+                        element={
+                            <>
+                                <Navbar />
+                                <App />
+                                <Footer />
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/login"
+                        element={
+                            <>
+                                <Login />
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/signup"
+                        element={
+                            <>
+                                <Signup />
+                            </>
+                        }
+                    />
+                
+                    <Route
+                        path="/blog"
+                        element={
+                            <>
+                                <Navbar />
+                                <Blog />
+                                <Footer />
+                            </>
+                        }
+                    />
                 <Route
-                    path="/galeria"
-                    element={
-                        <>
-                            <Navbar />
-                            <Galeria />
-                            <Footer />
-                        </>
-                    }
-                />
+                        path="/verruta"
+                        element={
+                            <>
+                                <Navbar />
+                                <VerRutas />
+                                <Footer />
+                            </>
+                        }
+                    /> 
+                    <Route
+                        path="/feedback"
+                        element={
+                            <>
+                                <Navbar />
+                                <Feedback />
+                                <Footer />
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/naturaleza"
+                        element={
+                            <>
+                                <Navbar />
+                                <Naturaleza />
+                                <Footer />
+                            </>
+                        }
+                    />
+
+                    <Route
+                        path="/galeria"
+                        element={
+                            <>
+                                <Navbar />
+                                <Galeria />
+                                <Footer />
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/contactanos"
+                        element={
+                            <>
+                                <Navbar />
+                                <Contactanos />
+                                <Footer />
+                            </>
+                        }
+                    />
+
+                    <Route 
+                        path="/rutas" 
+                        element={
+                            <>
+                                <Navbar/>
+                                <Rutas role="cliente" />
+                                <Footer/>
+                            </>
+                        } 
+                    />
+
+                    <Route 
+                        path="/paypal" 
+                        element={<BotonPaypal />} 
+                        
+                    />
+                    <Route
+                        path="/exitosa" 
+                        element={<Exitosa />} 
+                    />
+
+                   {/*  <Route 
+                        path = "/perfil"
+                        element ={<EditProfile/>}
+
+                    />*/}
+
+                    <Route path ="/noencontrado" element = {<NotFound/>}/>
+                </Routes>
+            </BrowserRouter>
+        );
+    }
+
+
+    if (role === "guia") {
+        return (
+            <BrowserRouter basename={basename}>
+                <Routes>
+                    <Route
+                        path="/"
+                        element={
+                            <>
+                                <Navbar />
+                                <App />
+                                <Footer />
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/login"
+                        element={
+                            <>
+                                <Login />
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/signup"
+                        element={
+                            <>
+                                <Signup />
+                            </>
+                        }
+                    />
+                
+                    <Route
+                        path="/blog"
+                        element={
+                            <>
+                                <Navbar />
+                                <Blog />
+                                <Footer />
+                            </>
+                        }
+                    />
                 <Route
-                    path="/contactanos"
-                    element={
-                        <>
-                            <Navbar />
-                            <Contactanos />
-                            <Footer />
-                        </>
-                    }
-                />
+                        path="/verruta"
+                        element={
+                            <>
+                                <Navbar />
+                                <VerRutas />
+                                <Footer />
+                            </>
+                        }
+                    /> 
+                    <Route
+                        path="/feedback"
+                        element={
+                            <>
+                                <Navbar />
+                                <Feedback />
+                                <Footer />
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/naturaleza"
+                        element={
+                            <>
+                                <Navbar />
+                                <Naturaleza />
+                                <Footer />
+                            </>
+                        }
+                    />
 
-                <Route 
-                    path="/rutas" 
-                    element={
-                        <>
-                            <Navbar/>
-                            <Rutas role="cliente" />
-                            <Footer/>
-                        </>
-                    } 
-                />
+                    <Route
+                        path="/galeria"
+                        element={
+                            <>
+                                <Navbar />
+                                <Galeria />
+                                <Footer />
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/contactanos"
+                        element={
+                            <>
+                                <Navbar />
+                                <Contactanos />
+                                <Footer />
+                            </>
+                        }
+                    />
 
-                <Route 
-                    path="/paypal" 
-                    element={<BotonPaypal />} 
+                    <Route 
+                        path="/rutas" 
+                        element={
+                            <>
+                                <Navbar/>
+                                <Rutas role="guia" />
+                                <Footer/>
+                            </>
+                        } 
+                    />
+
+                   {/*  <Route 
+                        path = "/perfil"
+                        element ={<EditProfile/>}
+
+                    />*/}
+
+                    <Route path ="/noencontrado" element = {<NotFound/>}/>
+                </Routes>
+            </BrowserRouter>
+        );
+    }
+
+
+
+    if (role === "administrador") {
+        return (
+            <BrowserRouter basename={basename}>
+                <Routes>
                     
-                />
-                <Route
-                     path="/exitosa" 
-                     element={<Exitosa />} 
-                />
-
-                <Route 
-                    path = "/perfil"
-                    element ={<EditProfile/>}
-
-                />
-
-                <Route path ="/noencontrado" element = {<NotFound/>}/>
                 <Route path="/admin" element={<AdminRoute element={<AdminPage />} />} />
 
 
-            </Routes>
-        </BrowserRouter>
-    );
+                    <Route
+                        path="/login"
+                        element={
+                            <>
+                                <Login />
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/signup"
+                        element={
+                            <>
+                                <Signup />
+                            </>
+                        }
+                    />
+                
+                    <Route
+                        path="/blog"
+                        element={
+                            <>
+                                <Navbar />
+                                <Blog />
+                                <Footer />
+                            </>
+                        }
+                    />
+                 
+                    <Route
+                        path="/feedback"
+                        element={
+                            <>
+                                <Navbar />
+                                <Feedback />
+                                <Footer />
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/naturaleza"
+                        element={
+                            <>
+                                <Navbar />
+                                <Naturaleza />
+                                <Footer />
+                            </>
+                        }
+                    />
+
+                    <Route
+                        path="/galeria"
+                        element={
+                            <>
+                                <Navbar />
+                                <Galeria />
+                                <Footer />
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/contactanos"
+                        element={
+                            <>
+                                <Navbar />
+                                <Contactanos />
+                                <Footer />
+                            </>
+                        }
+                    />
+
+                    <Route 
+                        path="/rutas" 
+                        element={
+                            <>
+                                <Navbar/>
+                                <Rutas role="administradpr" />
+                                <Footer/>
+                            </>
+                        } 
+                    />
+
+                  
+
+                    <Route path ="/noencontrado" element = {<NotFound/>}/>
+                    
+
+                </Routes>
+            </BrowserRouter>
+        );
+    }
 };
 
 export default injectContext(Layout);
