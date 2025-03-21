@@ -1,4 +1,3 @@
-
 import { createClient } from '@supabase/supabase-js';
 
 
@@ -31,5 +30,20 @@ export const uploadImage = async (file, bucket, folder) => {
   } catch (error) {
     console.error("Error al subir la imagen:", error);
     throw error;
+  }
+  
+};
+
+export const deleteImage = async (filePath, bucket) => {
+  try {
+    const { error } = await supabase.storage.from(bucket).remove([filePath]);
+
+    if (error) throw error;
+
+    console.log("Imagen eliminada con éxito:", filePath);
+    return true;
+  } catch (error) {
+    console.error("Error al eliminar la imagen:", error);
+    return false;
   }
 };
