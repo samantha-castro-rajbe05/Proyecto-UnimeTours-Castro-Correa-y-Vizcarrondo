@@ -1,17 +1,93 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import {
+  collection,
+  getDocs,
+  getFirestore,
+  query,
+  where,
+} from "firebase/firestore";
+import { useAuthState } from "react-firebase-hooks/auth";
+// Importa tu configuración/credenciales de Firebase
+import {auth, db} from "../firebaseConfig"; // Ajusta la ruta según tu estructura
 import "/src/css/App.css";
 
-
+// Inicializar Firestore
 
 
 const App = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+
+  // Estado para almacenar el rol del usuario y el estado de carga
+  const [role, setRole] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [user, loadingAuth, errorAuth] = useAuthState(auth);
+
+  // Obtener el rol del usuario desde la colección "users"
+  useEffect(() => {
+    async function getUserRole() {
+      try {
+        // Usar el uid del usuario autenticado
+        if (!user) {
+          console.log("No hay usuario autenticado.");
+          setRole("usuario");
+          setLoading(false);
+          return;
+        }
+        
+        const uid = user.uid;
+        console.log("UID obtenido:", uid);
+        
+        const q = query(collection(db, "users"), where("uid", "==", uid));
+        const querySnapshot = await getDocs(q);
+
+        if (!querySnapshot.empty) {
+          const userData = querySnapshot.docs[0].data();
+          console.log("Datos del usuario:", userData);
+          setRole(userData.role || "usuario");
+        } else {
+          console.log("No se encontró el usuario con ese uid.");
+          setRole("usuario"); 
+        }
+      } catch (error) {
+        console.error("Error fetching user role: ", error);
+        setRole("usuario");
+      }
+      setLoading(false);
+    }
+
+    // Ejecutar solo si la carga de autenticación ya terminó
+    if (!loadingAuth) {
+      getUserRole();
+    }
+  }, [user, loadingAuth]);
+
+  if (loading || loadingAuth) {
+    return <div>Cargando...</div>;
+  }
+
+ 
+if (role === "admin") {
+    return (
+        <div className="text-center mt-3">
+          <button
+            className="bg-[#143A27] text-white font-semibold py-2 px-6 rounded-lg hover:bg-[#96A89C] transition duration-300"
+            onClick={() => window.location.href = "/blog"}
+          >
+            Ver más
+          </button>
+        </div>
+      );
+} else {
+
+
+// const App = () => {
+//     const navigate = useNavigate();
  
 
-    useEffect(() => {
-        navigate("/");
-    }, [navigate]);
+//     useEffect(() => {
+//         navigate("/");
+//     }, [navigate]);
 
     // if (role ==="usuario"){ 
     return (
@@ -239,7 +315,8 @@ const App = () => {
             
         </div>
     );
-    };
+} 
+};
 
 
 export default App;
