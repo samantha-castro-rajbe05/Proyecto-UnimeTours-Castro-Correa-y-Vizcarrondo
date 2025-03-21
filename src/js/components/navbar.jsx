@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { auth } from '../firebaseConfig';
-//import EditProfile from './editarPerfil/editarPerfil';
 
 export const Navbar = () => {
   const [menuVisible, setMenuVisible] = useState(false);
@@ -73,7 +72,7 @@ export const Navbar = () => {
               <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-20">
                 {currentUser ? (
                   <>
-                    <button onClick={handleEditProfileClick} className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-200" /*onClick= {()=> navigate ("/perfil")*/>Editar perfil</button>
+                    <button onClick={handleEditProfileClick} className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-200">Editar perfil</button>
                     <button onClick={handleLogoutClick} className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-200">Cerrar sesión</button>
                   </>
                 ) : (
