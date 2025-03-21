@@ -288,7 +288,7 @@ if (role === "admin") {
 //         navigate("/");
 //     }, [navigate]);
 
-    // if (role ==="usuario"){ 
+//if (role ==="usuario"){ 
     return (
         <div>
             <section> {/* imagen superior avila + titulo */}

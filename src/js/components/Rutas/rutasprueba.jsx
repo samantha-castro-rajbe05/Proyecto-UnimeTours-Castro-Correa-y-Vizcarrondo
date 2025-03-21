@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { RutasAdministrador } from "./RutasAdministrador.jsx"; // Asegúrate de que la ruta sea correcta
 import { useNavigate } from "react-router-dom"; // Importa useNavigate
-import {
-    db,
-  } from "../../firebaseConfig.js";
-import { doc, setDoc, getDocs, addDoc, collection, deleteDoc} from "firebase/firestore";
+import {db,auth} from "../../firebaseConfig.js";
+import { doc, setDoc, getDocs, addDoc, collection, deleteDoc, query, where} from "firebase/firestore";
+import { useAuthState } from "react-firebase-hooks/auth";
 
-const Rutas = ({ role }) => {
-   const navigate = useNavigate(); // Inicializa useNavigate
-    
+const Rutas = () => {
+    const navigate = useNavigate(); // Inicializa useNavigate
+    const [user, loadingAuth]= useAuthState(auth)
+    const [role, setRole] = useState("");
+    const [loading, setLoading]= useState(true)
+
     // Estado inicial para las rutas
-    const [rutas, setRutas] = useState([   ]);
+    const [rutas, setRutas] = useState([]);
 
     // Estado para el formulario de nueva ruta
     const [nuevaRuta, setNuevaRuta] = useState({
@@ -30,6 +32,8 @@ const Rutas = ({ role }) => {
         setNuevaRuta({ ...nuevaRuta, [e.target.name]: e.target.value });
     };
 
+    const [guias, setGuias] = useState([]);
+
     // Función para agregar una nueva ruta
     async function agregarRuta() {
         
@@ -40,7 +44,9 @@ const Rutas = ({ role }) => {
             dificultad: nuevaRuta.dificultad,
             altura: nuevaRuta.distancia,
             descripcion: nuevaRuta.descripcion,
-            monto: nuevaRuta.monto, // Guardar el rol seleccionado
+            monto: nuevaRuta.monto,
+            fecha:nuevaRuta.fecha,
+            guia:nuevaRuta.guia, // Guardar el rol seleccionado
           });
             setRutas([...rutas,{ ...nuevaRuta, docId: docRef.id}]);
             setNuevaRuta({
@@ -52,9 +58,10 @@ const Rutas = ({ role }) => {
                 distancia: "",
                 decripcion: "",
                 monto:"",
+                fecha:"",
+                guia:"",
         }); // Limpiar el formulario
-
-        
+  
     };
 
     
@@ -91,10 +98,44 @@ const Rutas = ({ role }) => {
         setRutas(rutasList);
     };
 
+    // Función para obtener los guías desde Firestore
+    const fetchGuias = async () => {
+        const usersCollection = collection(db, "users");
+        const usersSnapshot = await getDocs(usersCollection);
+        const guiasList = usersSnapshot.docs
+            .map(doc => doc.data())
+            .filter(user => user.role === "guia");
+        setGuias(guiasList);
+    };
+
+
     // useEffect para obtener las rutas cuando el componente se monta
+    const fetchUserRole = async (uid) => {
+        const q = query(collection(db, "users"), where("uid", "==", uid));
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+            const userData = querySnapshot.docs[0].data();
+            setRole(userData.role || "usuario");
+        } else {
+            setRole("usuario");
+        }
+        setLoading(false);
+    };
+    // useEffect para obtener las rutas y el rol del usuario cuando el componente se monta
     useEffect(() => {
+        if (user) {
+            fetchUserRole(user.uid);
+        } else {
+            setLoading(false);
+        }
+        fetchGuias();
         fetchRutas();
-    }, []);
+    }, [user]);
+
+     
+    if (loading || loadingAuth) {
+        return <div>Cargando...</div>;
+    }
 
     // Renderizar la vista correspondiente según el rol del usuario
 
@@ -128,6 +169,8 @@ const Rutas = ({ role }) => {
                                             <li>Ruta: {ruta.nombre}</li>
                                             <li>Descripcion: {ruta.descripcion}</li>
                                             <li>Monto:$ {ruta.monto}</li>
+                                            <li>Fecha: {ruta.fecha}</li>
+                                            <li>Guia: {ruta.guia}</li>
 
                                         </ul>
                                         <div className="text-center mt-3">
@@ -165,6 +208,7 @@ const Rutas = ({ role }) => {
                         eliminarRuta={eliminarRuta}
                         nuevaRuta={nuevaRuta}
                         handleChange={handleChange}
+                        guias={guias} 
                     />
                 </section>
             </div>
