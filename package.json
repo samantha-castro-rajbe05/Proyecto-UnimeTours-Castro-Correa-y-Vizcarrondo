@@ -16,6 +16,7 @@
     "@tailwindcss/vite": "^4.0.14",
     "firebase": "11.4.0",
     "heic2any": "^0.0.4",
+    "lucide-react": "^0.483.0",
     "postcss": "^8.5.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
