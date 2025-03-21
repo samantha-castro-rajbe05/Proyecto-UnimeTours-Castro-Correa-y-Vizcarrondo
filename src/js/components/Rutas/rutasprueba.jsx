@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { RutasAdministrador } from "./RutasAdministrador.jsx"; // Asegúrate de que la ruta sea correcta
 import { useNavigate } from "react-router-dom"; // Importa useNavigate
-import {
-    db,
-  } from "../../firebaseConfig.js";
-import { doc, setDoc, getDocs, addDoc, collection, deleteDoc} from "firebase/firestore";
+import {db,auth} from "../../firebaseConfig.js";
+import { doc, setDoc, getDocs, addDoc, collection, deleteDoc, query, where} from "firebase/firestore";
+import { useAuthState } from "react-firebase-hooks/auth";
 
-const Rutas = ({ role }) => {
-   const navigate = useNavigate(); // Inicializa useNavigate
-    
+const Rutas = () => {
+    const navigate = useNavigate(); // Inicializa useNavigate
+    const [user, loadingAuth]= useAuthState(auth)
+    const [role, setRole] = useState("");
+    const [loading, setLoading]= useState(true)
+
     // Estado inicial para las rutas
     const [rutas, setRutas] = useState([]);
 
@@ -108,10 +110,32 @@ const Rutas = ({ role }) => {
 
 
     // useEffect para obtener las rutas cuando el componente se monta
+    const fetchUserRole = async (uid) => {
+        const q = query(collection(db, "users"), where("uid", "==", uid));
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+            const userData = querySnapshot.docs[0].data();
+            setRole(userData.role || "usuario");
+        } else {
+            setRole("usuario");
+        }
+        setLoading(false);
+    };
+    // useEffect para obtener las rutas y el rol del usuario cuando el componente se monta
     useEffect(() => {
+        if (user) {
+            fetchUserRole(user.uid);
+        } else {
+            setLoading(false);
+        }
         fetchGuias();
         fetchRutas();
-    }, []);
+    }, [user]);
+
+     
+    if (loading || loadingAuth) {
+        return <div>Cargando...</div>;
+    }
 
     // Renderizar la vista correspondiente según el rol del usuario
 
