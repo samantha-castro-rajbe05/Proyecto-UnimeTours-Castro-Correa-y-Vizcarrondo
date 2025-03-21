@@ -1,37 +1,8 @@
 import React, { useState } from "react";
 import { FaCamera } from "react-icons/fa";
-import { createClient } from "@supabase/supabase-js";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../../firebaseConfig.js";
-
-// Configuración del cliente de Supabase
-const supabaseUrl = "https://your-project.supabase.co";
-const supabaseAnonKey = "YOUR_SUPABASE_ANON_KEY";
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
-
-/**
- * Función auxiliar para subir una imagen a Supabase Storage.
- *
- * @param {File} file – El archivo de imagen a subir.
- * @param {string} bucket – El bucket en Supabase (en este caso, "unimetours-fotos").
- * @param {string} folder – La carpeta dentro del bucket (ahora "rutas").
- * @returns {string|null} – La URL pública de la imagen o null en caso de error.
- */
-async function uploadImage(file, bucket, folder) {
-  const fileExt = file.name.split(".").pop();
-  const fileName = `${folder}/${Date.now()}.${fileExt}`;
-  const { data, error } = await supabase.storage.from(bucket).upload(fileName, file);
-  if (error) {
-    console.error("Error al subir imagen:", error);
-    return null;
-  }
-  const { publicURL, error: publicUrlError } = supabase.storage.from(bucket).getPublicUrl(data.path);
-  if (publicUrlError) {
-    console.error("Error al obtener la URL pública:", publicUrlError);
-    return null;
-  }
-  return publicURL;
-}
+import { supabase, uploadImage, deleteImage } from "../../supabaseConfig.js";
 
 export const RutasAdministrador = ({
   rutas,
@@ -40,44 +11,55 @@ export const RutasAdministrador = ({
   nuevaRuta,
   handleChange,
   guias,
-  user // Asegúrate de pasar el objeto de usuario (user) al componente
+  user // Asegúrate de pasar el objeto usuario al componente
 }) => {
   // Estado para almacenar la URL de vista previa de la imagen seleccionada
-  const [previewImage, setPreviewImage] = useState(null);
+  const [previewImage, setPreviewImage] = useState("");
 
   // Función para manejar la selección y subida de la imagen
   const handleAddImage = async (event) => {
     const file = event.target.files[0];
     if (!file) return;
 
-    // Crear una URL de vista previa para mostrar la imagen inmediatamente
+    // Genera una URL local de vista previa
     const previewUrl = URL.createObjectURL(file);
     setPreviewImage(previewUrl);
+    console.log("Vista previa generada:", previewUrl);
 
     try {
-      // Subir la imagen a Supabase: se usa el bucket "unimetours-fotos" y la carpeta "rutas"
+      // Sube la imagen usando la función uploadImage (de tu supabaseConfig.js)
+      // Se guarda en el bucket "unimetours-fotos" y en la carpeta "rutas"
       const publicUrl = await uploadImage(file, "unimetours-fotos", "rutas");
-      if (!publicUrl) 
+      console.log("URL pública obtenida:", publicUrl);
+      if (!publicUrl)
         throw new Error("No se pudo obtener la URL pública de la imagen.");
-
-      // Actualiza el campo "imagen" en el formulario.
-      // Se simula un evento al llamar a handleChange.
+      
+      // Actualiza el campo "imagen" en el objeto de la ruta.
+      // Usamos handleChange para simular un input change.
+      // Si detectas que esto no actualiza el estado, considera usar directamente el setter de estado.
       handleChange({ target: { name: "imagen", value: publicUrl } });
+      console.log("Se llamó a handleChange para actualizar imagen en nuevaRuta");
 
-      // Opcional: Guardar la imagen en Firestore en la colección "galeria"
+      // Para verificar, muestra el nuevo valor. (Recuerda que la actualización es asíncrona)
+      console.log("Estado actual de nuevaRuta (antes de re-render):", {
+        ...nuevaRuta,
+        imagen: publicUrl,
+      });
+
+      // Opcional: Guarda la imagen en la colección "galeria" de Firestore
       await addDoc(collection(db, "galeria"), {
         imageUrl: publicUrl,
         uploadedAt: new Date(),
-        userId: user?.uid || "defaultUser", // Asegúrate de tener definido el usuario
+        userId: user?.uid || "defaultUser",
       });
 
-      console.log("Imagen subida con éxito:", publicUrl);
+      console.log("Imagen subida y guardada en Firestore con éxito:", publicUrl);
     } catch (error) {
       console.error("Error al subir la imagen o guardar en Firestore:", error);
     }
   };
 
-  // Función para manejar la acción de "Agregar Ruta"
+  // Función para manejar el clic en "Agregar Ruta"
   const handleAgregarRutaClick = () => {
     console.log("Click en Agregar Ruta. Datos:", nuevaRuta);
     agregarRuta();
@@ -85,7 +67,7 @@ export const RutasAdministrador = ({
 
   return (
     <div className="container mx-auto p-6 space-y-8">
-      {/* Título de la página */}
+      {/* Título */}
       <h1 className="text-center text-3xl font-bold mb-6">Administrar Rutas</h1>
 
       {/* Sección del formulario */}
@@ -130,7 +112,7 @@ export const RutasAdministrador = ({
             className="border rounded px-3 py-2"
             type="text"
             name="nombre"
-            value={nuevaRuta.nombre}
+            value={nuevaRuta.nombre || ""}
             onChange={handleChange}
             placeholder="Nombre"
           />
@@ -138,7 +120,7 @@ export const RutasAdministrador = ({
             className="border rounded px-3 py-2"
             type="text"
             name="tiempo"
-            value={nuevaRuta.tiempo}
+            value={nuevaRuta.tiempo || ""}
             onChange={handleChange}
             placeholder="Tiempo"
           />
@@ -146,7 +128,7 @@ export const RutasAdministrador = ({
             className="border rounded px-3 py-2"
             type="text"
             name="dificultad"
-            value={nuevaRuta.dificultad}
+            value={nuevaRuta.dificultad || ""}
             onChange={handleChange}
             placeholder="Dificultad"
           />
@@ -154,7 +136,7 @@ export const RutasAdministrador = ({
             className="border rounded px-3 py-2"
             type="text"
             name="altura"
-            value={nuevaRuta.altura}
+            value={nuevaRuta.altura || ""}
             onChange={handleChange}
             placeholder="Altura"
           />
@@ -162,7 +144,7 @@ export const RutasAdministrador = ({
             className="border rounded px-3 py-2"
             type="text"
             name="distancia"
-            value={nuevaRuta.distancia}
+            value={nuevaRuta.distancia || ""}
             onChange={handleChange}
             placeholder="Distancia"
           />
@@ -170,7 +152,7 @@ export const RutasAdministrador = ({
             className="border rounded px-3 py-2"
             type="text"
             name="descripcion"
-            value={nuevaRuta.descripcion}
+            value={nuevaRuta.descripcion || ""}
             onChange={handleChange}
             placeholder="Descripción"
           />
@@ -178,7 +160,7 @@ export const RutasAdministrador = ({
             className="border rounded px-3 py-2"
             type="text"
             name="monto"
-            value={nuevaRuta.monto}
+            value={nuevaRuta.monto || ""}
             onChange={handleChange}
             placeholder="Monto"
           />
@@ -186,13 +168,13 @@ export const RutasAdministrador = ({
             className="border rounded px-3 py-2"
             type="date"
             name="fecha"
-            value={nuevaRuta.fecha}
+            value={nuevaRuta.fecha || ""}
             onChange={handleChange}
           />
           <select
             className="border rounded px-3 py-2"
             name="guia"
-            value={nuevaRuta.guia}
+            value={nuevaRuta.guia || ""}
             onChange={handleChange}
           >
             <option value="">Seleccionar guía</option>
@@ -212,15 +194,21 @@ export const RutasAdministrador = ({
         </form>
       </div>
 
-      {/* Sección de listado de rutas */}
+      {/* Listado de rutas */}
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {rutas.map((ruta, index) => (
           <div key={index} className="bg-[#D4D9D8] shadow-md rounded-lg p-4">
-            <img
-              className="w-full h-40 object-cover rounded-t-lg"
-              src={ruta.imagen}
-              alt={ruta.nombre}
-            />
+            {ruta.imagen ? (
+              <img
+                className="w-full h-40 object-cover rounded-t-lg"
+                src={ruta.imagen}
+                alt={ruta.nombre}
+              />
+            ) : (
+              <div className="w-full h-40 bg-gray-200 flex items-center justify-center rounded-t-lg">
+                <span className="text-gray-500">Sin imagen</span>
+              </div>
+            )}
             <div className="p-2">
               <div className="text-xl font-bold text-[#143A27] mb-2">
                 {ruta.tiempo}
