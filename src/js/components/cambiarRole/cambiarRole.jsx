@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { collection, getDocs, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../firebaseConfig'; // Ajusta la ruta según tu proyecto
+import { useNavigate } from 'react-router-dom';
 
 const RoleSwitcher = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   // Función para obtener todos los usuarios de la colección "users"
   useEffect(() => {
@@ -56,17 +58,17 @@ const RoleSwitcher = () => {
   const guias = users.filter((u) => u.role && u.role.toLowerCase() === "guia");
 
   return (
-    <div className="container mx-auto p-4">
-      <h2 className="text-2xl font-bold mb-6 text-center">Usuarios y Guías</h2>
+    <div className="w-full min-h-screen p-4 bg-[#aac1b2]">
+      <h2 className="text-7xl font-bold mb-20 mt-10 font-serif montserrat text-center text-[#143A27]">Usuarios y Guías</h2>
       <div className="flex gap-8">
         {/* Columna para Usuarios */}
         <div className="flex-1">
           <h3 className="text-xl font-bold mb-4 text-center">Usuarios</h3>
-          <div className="space-y-4">
+          <div className="space-y-4 bg-">
             {usuarios.map((userData) => (
               <div
                 key={userData.id}
-                className="p-4 border rounded shadow flex justify-between items-center"
+                className="p-4 border rounded shadow flex justify-between items-center bg-[#c8d9cd]"
               >
                 <div>
                   <p className="font-semibold">
@@ -76,7 +78,7 @@ const RoleSwitcher = () => {
                 </div>
                 <button
                   onClick={() => toggleUserRole(userData.id, userData.role)}
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded transition duration-300"
+                  className="bg-[#143A27] hover:bg-[#4b835a] text-white font-bold py-1 px-3 rounded transition duration-300"
                 >
                   Ascender a guía
                 </button>
@@ -92,7 +94,7 @@ const RoleSwitcher = () => {
             {guias.map((userData) => (
               <div
                 key={userData.id}
-                className="p-4 border rounded shadow flex justify-between items-center"
+                className="p-4 border rounded shadow flex justify-between items-center bg-[#c8d9cd]"
               >
                 <div>
                   <p className="font-semibold">
@@ -102,7 +104,7 @@ const RoleSwitcher = () => {
                 </div>
                 <button
                   onClick={() => toggleUserRole(userData.id, userData.role)}
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded transition duration-300"
+                  className="bg-[#143A27] hover:bg-[#4b835a] text-white font-bold py-1 px-3 rounded transition duration-300"
                 >
                   Devolver a cliente
                 </button>
@@ -110,6 +112,14 @@ const RoleSwitcher = () => {
             ))}
           </div>
         </div>
+      </div>
+      <div className='w-full p-20 flex items-center justify-center' >
+        <button 
+        className='bg-[#143A27] hover:bg-[#4b835a] text-white font-bold py-1 px-3 rounded transition duration-300'
+        onClick={() => navigate("/")}
+        > 
+            Volver a página principal
+        </button>
       </div>
     </div>
   );

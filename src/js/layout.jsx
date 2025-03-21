@@ -172,8 +172,15 @@ const Layout = () => {
                 <Route path="/admin" element={<AdminRoute element={<AdminPage />} />} />
 
                 <Route 
+                
                     path = "/cambiar-role"
-                    element ={<RoleSwitcher/>}
+                    element ={
+                        <>
+                            <Navbar/>
+                            <RoleSwitcher/>
+                            <Footer/>
+                    </>
+                }
 
                 />
 
