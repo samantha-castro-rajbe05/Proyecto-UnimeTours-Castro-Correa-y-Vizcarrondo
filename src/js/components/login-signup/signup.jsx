@@ -1,14 +1,13 @@
 import React, { useState } from "react";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   db,
   auth,
   providerGoogle,
   providerFacebook,
 } from "../../firebaseConfig.js";
-import { supabase, uploadImage } from "../../supabaseConfig";
+import { uploadImage } from "../../supabaseConfig";
 import { doc, setDoc, getDoc } from "firebase/firestore";
-import { getFirestore } from "firebase/firestore";
 import {
   createUserWithEmailAndPassword,
   signInWithPopup,
@@ -33,6 +32,7 @@ const Signup = () => {
   const [loading, setLoading] = useState(false);
   const [errMsg, setErrMsg] = useState("");
   const [avatar, setAvatar] = useState({ file: null, url: "" });
+  let [role, setRole] = useState("usuario"); // Estado para el rol seleccionado
   const navigate = useNavigate();
 
   const [telefono, setTelefono] = useState("+58-");
@@ -74,17 +74,11 @@ const Signup = () => {
           `public/${user.uid}`
         );
       }
-      // if (avatar.file) {
-      //   const { data, error } = await supabase.storage
-      //     .from("unimetours-fotos")
-      //     .upload(`public/${user.uid}/${avatar.file.name}`, avatar.file);
 
-      //   if (error) {
-      //     throw error;
-      //   }
-
-      //   avatarUrl = data.Key;
-      // }
+      
+      if (email === "samantha.castro@correo.unimet.edu.ve") {
+        role = "admin";
+      }
 
       // Guardar datos del usuario en Firestore
       await setDoc(doc(db, "users", user.uid), {
@@ -93,15 +87,14 @@ const Signup = () => {
         telefono: telefono,
         email: email,
         uid: userCredential.user.uid,
-        avatarUrl: avatarUrl || "", // Establecer un valor predeterminado si avatarUrl es undefined
+        avatarUrl: avatarUrl || "",
         fechaCreacion: new Date(),
-        foto_perfil: avatarUrl, // Guardar la URL de la imagen en el campo foto_perfil
+        role: role, // Guardar el rol seleccionado
       });
 
       setLoading(false);
       setLogin(true);
       navigate("/");
-      
     } catch (error) {
       console.error("Error al registrarse:", error);
       if (error.code === "auth/email-already-in-use") {
@@ -331,12 +324,24 @@ const Signup = () => {
                             </label>
                           </div>
                           <p className="text-[#6D706F] text-xs leading-5">
-                            PNG, JPG, GIF hasta 10MB{" "}
+                            PNG, JPG hasta 10MB{" "}
                           </p>
                         </div>
                       </div>
                     </div>
                   </div>
+                </div>
+                <div>
+                  <Label title="Rol" htmlFor="role" />
+                  <select
+                    name="role"
+                    value={role}
+                    onChange={(e) => setRole(e.target.value)}
+                    className="block w-full rounded-md border border-white py-2 text-black rounded-[20px] shadow-sm outline-white sm:text-sm sm-leading-6 px-4"
+                  >
+                    <option value="usuario">Usuario</option>
+                    <option value="guia">Guía</option>
+                  </select>
                 </div>
               </div>
               <p className="mt-5 bg-white/60 text-red-600 text-center py-1 rounded-md tracking-wide font-semibold">
