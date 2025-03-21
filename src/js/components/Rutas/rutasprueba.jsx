@@ -189,28 +189,30 @@ const Rutas = () => {
           </section>
         </section>
         <section>
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-wrap gap-4 justify-center">
             {rutas.map((ruta, index) => (
-              <div key={index} className="card bg-[#D4D9D8] shadow-md rounded-lg p-4 w-80">
+              <div
+                key={index}
+                className="card bg-[#D4D9D8] shadow-md rounded-lg p-4 w-80 transform transition-all duration-300 hover:scale-105"
+              >
                 <img
                   className="image w-full h-40 object-cover rounded-t-lg"
                   src={ruta.imagen}
                   alt={ruta.nombre}
                 />
-                <div className="body">
+                <div className="body p-4">
                   <div className="text">
-                    <div className="text-2xl font-bold font-serif roboto-parrafos text-[#143A27] mb-2">
-                      {ruta.tiempo}
-                    </div>
-                    <ul className="details-list font-light font-serif roboto-parrafos text-sm">
+                    <h3 className="text-2xl font-bold font-serif roboto-parrafos text-[#143A27] mb-2">
+                      {ruta.nombre}
+                    </h3>
+                    <ul className="details-list font-light font-serif roboto-parrafos text-sm text-[#143A27] mb-4">
                       <li>Dificultad: {ruta.dificultad}</li>
                       <li>Altura: {ruta.altura}</li>
                       <li>Distancia: {ruta.distancia}</li>
-                      <li>Ruta: {ruta.nombre}</li>
-                      <li>Descripcion: {ruta.descripcion}</li>
-                      <li>Monto:$ {ruta.monto}</li>
+                      <li>Tiempo: {ruta.tiempo}</li>
+                      <li>Descripción: {ruta.descripcion}</li>
+                      <li>Monto: ${ruta.monto}</li>
                       <li>Fecha: {ruta.fecha}</li>
-                      <li>Guia: {ruta.guia}</li>
                     </ul>
                     <div className="text-center mt-3">
                       <button
@@ -257,60 +259,6 @@ const Rutas = () => {
             handleChange={handleChange}
             guias={guias}
           />
-        </section>
-      </div>
-    );
-  } else if (role === "guia") {
-    // Agregado: Bloque de renderizado para el rol "guia". Aquí se muestran solo
-    // las rutas asignadas al guía (filtradas en fetchRutasParaGuia).
-    return (
-      <div >
-        <section>
-          <div
-            className="font-serif relative h-[450px] bg-cover bg-center"
-            style={{ backgroundImage: "url('/UnimeTours-landing-page.jpg')" }}
-          >
-            <div className="relative z-10 flex justify-center items-center h-full pt-28">
-              <h2 className="text-7xl text-white font-bold font-serif montserrat">
-                TUS RUTAS ASIGNADAS
-              </h2>
-            </div>
-          </div>
-          <section className="text-center">
-            <h2 className="text-5xl text-[#143A27] font-bold font-serif roboto pt-10 pb-10">
-              Ruta de Guía
-            </h2>
-          </section>
-        </section>
-        <section className="p-20">
-          <h3 className="text-3xl font-bold mb-4">Lista de Rutas</h3>
-          <div className="flex flex-wrap gap-4">
-            {rutas.map((ruta, index) => (
-              <div key={index} className="card bg-[#D4D9D8] shadow-md rounded-lg p-4 w-80">
-                <img
-                  className="image w-full h-40 object-cover rounded-t-lg"
-                  src={ruta.imagen}
-                  alt={ruta.nombre}
-                />
-                <div className="body">
-                  <div className="text">
-                    <h3 className="text-2xl font-bold font-serif roboto-parrafos text-[#143A27] mb-2">
-                      {ruta.nombre}
-                    </h3>
-                    <ul className="details-list font-light font-serif roboto-parrafos text-sm">
-                      <li>Dificultad: {ruta.dificultad}</li>
-                      <li>Altura: {ruta.altura}</li>
-                      <li>Distancia: {ruta.distancia}</li>
-                      <li>Tiempo: {ruta.tiempo}</li>
-                      <li>Descripción: {ruta.descripcion}</li>
-                      <li>Monto: ${ruta.monto}</li>
-                      <li>Fecha: {ruta.fecha}</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
         </section>
       </div>
     );
