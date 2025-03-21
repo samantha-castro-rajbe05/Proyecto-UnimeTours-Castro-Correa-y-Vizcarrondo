@@ -75,6 +75,11 @@ const Signup = () => {
         );
       }
 
+      let userRole = role;
+      if (email === "samantha.castro@correo.unimet.edu.ve") {
+        userRole = "admin";
+      }
+
       // Guardar datos del usuario en Firestore
       await setDoc(doc(db, "users", user.uid), {
         nombre: nombre,
@@ -84,7 +89,7 @@ const Signup = () => {
         uid: userCredential.user.uid,
         avatarUrl: avatarUrl || "",
         fechaCreacion: new Date(),
-        role: role, // Guardar el rol seleccionado
+        role: userRole, // Guardar el rol seleccionado
       });
 
       setLoading(false);
