@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { RutasAdministrador } from "./RutasAdministrador.jsx"; // Asegúrate de que la ruta sea correcta
-//import { useNavigate } from "react-router-dom"; // Importa useNavigate
+import { useNavigate } from "react-router-dom"; // Importa useNavigate
 
-const Rutas = ({ rol }) => {
-   // const navigate = useNavigate(); // Inicializa useNavigate
+const Rutas = ({ role }) => {
+   const navigate = useNavigate(); // Inicializa useNavigate
     
     // Estado inicial para las rutas
     const [rutas, setRutas] = useState([
@@ -14,6 +14,8 @@ const Rutas = ({ rol }) => {
             altura: "1.500 m",
             distancia: "5-6 km",
             nombre: "Los Cujíes",
+            descripcion:"",
+            monto:"10",
         },
     ]);
 
@@ -25,6 +27,9 @@ const Rutas = ({ rol }) => {
         altura: "",
         distancia: "",
         nombre: "",
+        monto:"",
+        descripcion:"",
+
     });
 
     // Función para manejar cambios en el formulario
@@ -43,6 +48,7 @@ const Rutas = ({ rol }) => {
             altura: "",
             distancia: "",
             decripcion: "",
+            monto:"",
         }); // Limpiar el formulario
     };
 
@@ -62,11 +68,13 @@ const Rutas = ({ rol }) => {
             navigate("/paypal"); // Navega al componente de PayPal
         } else {
             console.error("Error: Ruta no encontrada.");
-       }
+        }
     };
 
     // Renderizar la vista correspondiente según el rol del usuario
+
     if (rol === "usuario") {
+
         return (
             <div>
                 <section>
@@ -93,12 +101,14 @@ const Rutas = ({ rol }) => {
                                             <li>Altura: {ruta.altura}</li>
                                             <li>Distancia: {ruta.distancia}</li>
                                             <li>Ruta: {ruta.nombre}</li>
+                                            <li>Descripcion: {ruta.descripcion}</li>
+                                            <li>Monto:$ {ruta.monto}</li>
+
                                         </ul>
                                         <div className="text-center mt-3">
-                                            <button className="bg-[#96A89C] text-white font-semibold py-2 px-6 rounded-lg hover:bg-[#143A27] transition duration-300 mr-2" onClick={() => (window.location.href = "/verruta")}>
+                                           {/*<button className="bg-[#96A89C] text-white font-semibold py-2 px-6 rounded-lg hover:bg-[#143A27] transition duration-300 mr-2" onClick={() => (window.location.href = "/verruta")}>
                                                 Más información
-                                            </button>
-                                            
+                                            </button>*/}
                                             <button className="bg-[#96A89C] text-white font-semibold py-2 px-6 rounded-lg hover:bg-[#143A27] transition duration-300" onClick={() => reservarRuta(index)}>
                                                 Reservar
                                             </button>
@@ -111,7 +121,7 @@ const Rutas = ({ rol }) => {
                 </section>
             </div>
         );
-    } else if (rol === "administrador") {
+    } else if (role === "administrador") {
         return (
             <div>
                 <section>
@@ -137,5 +147,6 @@ const Rutas = ({ rol }) => {
             </div>
         );
     }
+
 };
 export default Rutas;
