@@ -1,5 +1,6 @@
 import firebase from 'firebase/compat/app';
 import "firebase/compat/auth";
+import firebaseConfig from "/firebaseConfig";
 
 export const appfb = firebase.initializeApp(firebaseConfig)({
     "projectId": "unimetours-ccd0d",
