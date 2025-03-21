@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { RutasAdministrador } from "./RutasAdministrador.jsx"; // Asegúrate de que la ruta sea correcta
 import { useNavigate } from "react-router-dom"; // Importa useNavigate
 
-const Rutas = ({ rol }) => {
+const Rutas = ({ role }) => {
    const navigate = useNavigate(); // Inicializa useNavigate
     
     // Estado inicial para las rutas
@@ -72,7 +72,7 @@ const Rutas = ({ rol }) => {
     };
 
     // Renderizar la vista correspondiente según el rol del usuario
-    if (rol === "cliente") {
+    if (role === "cliente") {
         return (
             <div>
                 <section>
@@ -119,7 +119,7 @@ const Rutas = ({ rol }) => {
                 </section>
             </div>
         );
-    } else if (rol === "administrador") {
+    } else if (role === "administrador") {
         return (
             <div>
                 <section>

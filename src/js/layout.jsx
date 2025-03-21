@@ -115,7 +115,7 @@ const Layout = () => {
                     element={
                         <>
                             <Navbar/>
-                            <Rutas rol="cliente" />
+                            <Rutas role="cliente" />
                             <Footer/>
                         </>
                     } 

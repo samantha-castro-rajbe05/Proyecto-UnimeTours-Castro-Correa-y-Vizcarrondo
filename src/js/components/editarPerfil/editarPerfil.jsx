@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { db } from "../../firebaseConfig.js";
 import { doc, updateDoc, getDoc } from "firebase/firestore";
 import { supabase, uploadImage } from "../../supabaseConfig";
-import Label from "./label.jsx";
+import Label from ".componenets/login-signup/label.jsx";
 import { PhotoIcon } from "@heroicons/react/24/solid";
 
 const EditProfile = ({ user }) => {
