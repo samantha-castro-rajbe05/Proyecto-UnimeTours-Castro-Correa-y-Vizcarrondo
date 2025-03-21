@@ -183,7 +183,7 @@ const Rutas = () => {
             </div>
           </div>
           <section>
-            <h2 className="text-5xl text-[#143A27] font-bold font-serif roboto pt-10 pb-10">
+            <h2 className="text-5xl text-[#143A27] font-bold font-serif roboto pt-10 pb-10 text-center">
               Senderismo
             </h2>
           </section>
