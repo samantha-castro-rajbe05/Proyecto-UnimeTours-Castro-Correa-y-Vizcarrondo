@@ -46,6 +46,7 @@ const Feedback = () => {
 
     const newFeedback = {
       userId: currentUser.uid,
+      email: currentUser.email, // Agregar el correo del usuario
       rating,
       review,
     };
@@ -166,6 +167,7 @@ const Feedback = () => {
                 <p className="text-base font-light text-[#143A27] mb-4">
                   {feedback.review}
                 </p>
+                <p className="text-sm text-[#143A27] italic">Correo: {feedback.email}</p>
                 {currentUser && feedback.userId === currentUser.uid && (
                   <button
                     className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition duration-300 self-end"
