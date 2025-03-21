@@ -98,7 +98,7 @@ if (role === "admin") {
       <button
         className="bg-[#143A27] text-white font-semibold py-2 px-6 rounded-lg hover:bg-[#96A89C] transition duration-300"
       >
-        Agregar rutas
+        Administrar rutas
       </button>
     </div>
   </>
