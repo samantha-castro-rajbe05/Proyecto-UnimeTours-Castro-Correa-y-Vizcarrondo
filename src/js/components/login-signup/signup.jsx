@@ -32,7 +32,7 @@ const Signup = () => {
   const [loading, setLoading] = useState(false);
   const [errMsg, setErrMsg] = useState("");
   const [avatar, setAvatar] = useState({ file: null, url: "" });
-  let [role, setRole] = useState("usuario"); // Estado para el rol seleccionado
+  const [role, setRole] = useState("usuario"); // Estado para el rol seleccionado
   const navigate = useNavigate();
 
   const [telefono, setTelefono] = useState("+58-");
@@ -74,6 +74,8 @@ const Signup = () => {
           `public/${user.uid}`
         );
       }
+
+      
 
       // Guardar datos del usuario en Firestore
       await setDoc(doc(db, "users", user.uid), {
@@ -327,7 +329,7 @@ const Signup = () => {
                   </div>
                 </div>
                 <div>
-                  <Label title="Rol" htmlFor="role" />
+                  {/* <Label title="Rol" htmlFor="role" />
                   <select
                     name="role"
                     value={role}
@@ -336,7 +338,7 @@ const Signup = () => {
                   >
                     <option value="usuario">Usuario</option>
                     <option value="guia">Guía</option>
-                  </select>
+                  </select> */}
                 </div>
               </div>
               <p className="mt-5 bg-white/60 text-red-600 text-center py-1 rounded-md tracking-wide font-semibold">

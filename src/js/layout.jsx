@@ -22,6 +22,7 @@ import AdminPage from "./components/admin/adminpage.jsx"; // Importa el componen
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "./firebaseConfig";
 import { doc, getDoc } from "firebase/firestore";
+import RoleSwitcher from "./components/cambiarRole/cambiarRole.jsx";
 
 const AdminRoute = ({ element }) => {
   const [user] = useAuthState(auth);
@@ -169,6 +170,12 @@ const Layout = () => {
                 
                 <Route path ="/noencontrado" element = {<NotFound/>}/>
                 <Route path="/admin" element={<AdminRoute element={<AdminPage />} />} />
+
+                <Route 
+                    path = "/cambiar-role"
+                    element ={<RoleSwitcher/>}
+
+                />
 
 
             </Routes>
