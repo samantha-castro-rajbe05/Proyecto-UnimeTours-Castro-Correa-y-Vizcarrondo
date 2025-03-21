@@ -1,25 +1,38 @@
 import React, { useState } from "react";
 import { FaCamera } from "react-icons/fa"; // Importa el ícono de cámara
 import { uploadImage } from "../../supabaseConfig"; 
+import { db } from "../../firebaseConfig"; // Importa Firestore
+import { collection, addDoc } from "firebase/firestore";
 
 const Galeria = () => {
   const [images, setImages] = useState([]); // Estado para almacenar las imágenes
 
   
   const handleAddImage = async (event) => {
-    const file = event.target.files[0];
+    const file = event.target.files[0]; // Obtenemos el archivo cargado por el usuario
     if (file) {
-    try {
-      // Llama a la función de Supabase para subir la imagen
-      const publicUrl = await uploadImage(file, "unimetours-fotos", "galeria-images");
-      
-      // Actualiza el estado con la URL pública de la imagen subida
-      const reader = new FileReader();
-       reader.onload = (e) => {
-      setImages([...images, publicUrl]);
-    } catch (error) {
-      console.error("Error al subir la imagen:", error);
-    }}
+      try {
+        // Subir imagen a Supabase y obtener la URL pública
+        const publicUrl = await uploadImage(file, "unimetours-fotos", "galeria-images");
+        if (!publicUrl) {
+          throw new Error("No se pudo obtener la URL pública de la imagen.");
+        }
+
+        // Guardar la URL pública en Firestore en la colección "galeria"
+        await addDoc(collection(db, "galeria"), {
+          imageUrl: publicUrl, // URL pública de la imagen
+          uploadedAt: new Date(), // Timestamp del momento de la subida
+        });
+
+        // Actualizar el estado local con la nueva imagen
+        setImages((prevImages) => [...prevImages, publicUrl]);
+      } catch (error) {
+        console.error("Error al subir la imagen o guardar en Firestore:", error);
+      }
+    }
+  };
+
+  
     // const file = event.target.files[0];
     // if (file) {
     //   const reader = new FileReader();
@@ -27,9 +40,9 @@ const Galeria = () => {
     //     setImages([...images, e.target.result]); // Añade la nueva imagen al estado
     //   };
     //   reader.readAsDataURL(file);
-   }   // }
+    // }
   
-  };
+  
 
   return (
     <div className="flex flex-col min-h-screen bg-[#F5F5F5] px-4 py-10">
