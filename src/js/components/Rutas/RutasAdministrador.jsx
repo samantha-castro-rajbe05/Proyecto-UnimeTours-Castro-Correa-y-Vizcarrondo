@@ -66,7 +66,8 @@ export const RutasAdministrador = ({
   };
 
   return (
-    <div className="container mx-auto p-6 space-y-8">
+    <div className="min-h-screen ">
+        <div className="container mx-auto p-6 space-y-8">
       {/* Título */}
       <h1 className="text-center text-3xl font-bold mb-6">Administrar Rutas</h1>
 
@@ -231,6 +232,7 @@ export const RutasAdministrador = ({
           </div>
         ))}
       </div>
+    </div>
     </div>
   );
 };
