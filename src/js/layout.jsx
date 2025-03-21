@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
-import { App } from "./views/App.jsx";
+import  App from "./views/App.jsx";
 import injectContext from "./store/appContext.jsx";
 import Navbar from "./components/navbar.jsx";
 import Login from "./components/login-signup/login.jsx";
