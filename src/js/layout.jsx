@@ -9,7 +9,6 @@ import Blog from "./components/blog/blog.jsx";
 import Feedback from "./components/feedback/feedback.jsx"; // Importa el componente Feedback
 import Naturaleza from "./components/naturaleza/naturaleza.jsx"; // Importa el componente Naturaleza
 import Label from "./components/login-signup/label.jsx";
-import { VerRutas } from "./components/Rutas/verruta.jsx";
 import VerRutas from "./components/Rutas/verruta.jsx";
 import Footer from "./components/footer.jsx";
 import Galeria from "./components/galeria/galeria.jsx"; // Importa el componente Galería
@@ -87,7 +86,7 @@ const Layout = () => {
                     }
                 />
                 <Route
-               <Route
+              
                     path="/verruta"
                     element={
                         <>
@@ -97,7 +96,7 @@ const Layout = () => {
                         </>
                     }
                 />
-                /> 
+                
                 <Route
                     path="/feedback"
                     element={
