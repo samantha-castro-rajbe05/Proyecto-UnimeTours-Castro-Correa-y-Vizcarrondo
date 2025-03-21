@@ -68,16 +68,42 @@ const App = () => {
 
  
 if (role === "admin") {
-    return (
-        <div className="text-center mt-3">
-          <button
-            className="bg-[#143A27] text-white font-semibold py-2 px-6 rounded-lg hover:bg-[#96A89C] transition duration-300"
-            onClick={() => window.location.href = "/blog"}
-          >
-            Ver más
-          </button>
+
+  return (
+    
+    <>
+    {/* Sección de la imagen */}
+    <section className="mb-8">
+      <div
+        className="font-serif relative h-[450px] bg-cover bg-center"
+        style={{ backgroundImage: "url('/UnimeTours-landing-page.jpg')" }}
+      >
+        <div className="relative z-10 flex justify-center items-center h-full pt-28">
+          <h2 className="text-7xl text-white font-bold font-serif montserrat">
+            UnimeTours
+          </h2>
         </div>
-      );
+      </div>
+    </section>
+
+    <div className="text-5xl font-semibold font-serif roboto-subtitulos text-[#143A27] px-15 pb-5 text-center">¡Bienvenido administrador!</div>
+
+    {/* Contenedor de botones */}
+    <div className="flex justify-center items-center mt-8 mb-8 space-x-4">
+      <button
+        className="bg-[#143A27] text-white font-semibold py-2 px-6 rounded-lg hover:bg-[#96A89C] transition duration-300"
+      >
+        Administrar guías
+      </button>
+      <button
+        className="bg-[#143A27] text-white font-semibold py-2 px-6 rounded-lg hover:bg-[#96A89C] transition duration-300"
+      >
+        Agregar rutas
+      </button>
+    </div>
+  </>
+  )
+     
 } else {
 
 
