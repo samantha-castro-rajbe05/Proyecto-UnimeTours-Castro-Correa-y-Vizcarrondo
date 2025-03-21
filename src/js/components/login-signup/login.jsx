@@ -26,7 +26,7 @@ const Login = () => {
       // Verificar si el usuario es administrador
       if (
         email === "samantha.castro@correo.unimet.edu.ve" &&
-        password === "12345678"
+        password === "123456"
       ) {
         // Asignar rol de administrador
         await getDoc(doc(db, "users", user.uid)).then((docSnapshot) => {
