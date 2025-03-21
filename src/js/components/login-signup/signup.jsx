@@ -75,14 +75,6 @@ const Signup = () => {
         );
       }
 
-<<<<<<< HEAD
-      
-      if (email === "samantha.castro@correo.unimet.edu.ve") {
-        role = "admin";
-      }
-
-=======
->>>>>>> parent of cfcc6ab (Merge branch 'gabriel' of https://github.com/samantha-castro-rajbe05/Proyecto-UnimeTours-Castro-Correa-y-Vizcarrondo into gabriel)
       // Guardar datos del usuario en Firestore
       await setDoc(doc(db, "users", user.uid), {
         nombre: nombre,
