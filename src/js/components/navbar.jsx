@@ -91,6 +91,7 @@ export const Navbar = () => {
               <a
                 href="#rutas"
                 className="text-[#D4D9D8] hover:text-gray-400"
+                onClick={() => navigate("/rutas")}
               >
                 Administrar rutas
               </a>
