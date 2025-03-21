@@ -46,7 +46,7 @@ const Galeria = () => {
       {/* Contenedor de la galería responsive */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {/* Botón para subir imágenes */}
-        <div className="flex items-center justify-center bg-gray-300 border-4 border-[#143A27] rounded-lg shadow-md h-40 cursor-pointer">
+        <div className="flex items-center justify-center bg-gray-300 border-4 border-[#143A27] rounded-lg shadow-md h-100 cursor-pointer">
           <label htmlFor="addImage" className="flex flex-col items-center justify-center cursor-pointer">
             <FaCamera className="text-4xl text-[#143A27] mb-2" />
             <span className="text-[#143A27] font-semibold">Añadir Imagen</span>
@@ -62,7 +62,7 @@ const Galeria = () => {
 
         {/* Mostrar imágenes de Firestore */}
         {images.map((image, index) => (
-          <div key={index} className="bg-[#D4D9D8] border-4 border-[#143A27] rounded-lg shadow-md h-40 overflow-hidden">
+          <div key={index} className="bg-[#D4D9D8] border-4 border-[#143A27] rounded-lg shadow-md h-100 overflow-hidden">
             <img src={image} alt={`Imagen ${index + 1}`} className="w-full h-full object-cover" />
           </div>
         ))}
