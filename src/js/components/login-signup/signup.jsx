@@ -32,7 +32,7 @@ const Signup = () => {
   const [loading, setLoading] = useState(false);
   const [errMsg, setErrMsg] = useState("");
   const [avatar, setAvatar] = useState({ file: null, url: "" });
-  const [role, setRole] = useState("usuario"); // Estado para el rol seleccionado
+  let [role, setRole] = useState("usuario"); // Estado para el rol seleccionado
   const navigate = useNavigate();
 
   const [telefono, setTelefono] = useState("+58-");
@@ -75,9 +75,9 @@ const Signup = () => {
         );
       }
 
-      let userRole = role;
+      
       if (email === "samantha.castro@correo.unimet.edu.ve") {
-        userRole = "admin";
+        role = "admin";
       }
 
       // Guardar datos del usuario en Firestore
@@ -89,7 +89,7 @@ const Signup = () => {
         uid: userCredential.user.uid,
         avatarUrl: avatarUrl || "",
         fechaCreacion: new Date(),
-        role: userRole, // Guardar el rol seleccionado
+        role: role, // Guardar el rol seleccionado
       });
 
       setLoading(false);
@@ -324,7 +324,7 @@ const Signup = () => {
                             </label>
                           </div>
                           <p className="text-[#6D706F] text-xs leading-5">
-                            PNG, JPG, GIF hasta 10MB{" "}
+                            PNG, JPG hasta 10MB{" "}
                           </p>
                         </div>
                       </div>

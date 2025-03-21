@@ -1,6 +1,9 @@
 import React from "react";
 
+
 const AdminPage = () => {
+  let [role, setRole] = useState("usuario");
+  if (role === "admin") {
   return (
     <div className="min-h-screen bg-[#F5F5F5] px-10 py-10">
       <h1 className="text-4xl font-bold text-[#143A27] text-center mb-10">
@@ -63,5 +66,6 @@ const AdminPage = () => {
     </div>
   );
 };
+}
 
 export default AdminPage;
