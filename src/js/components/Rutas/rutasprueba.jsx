@@ -10,7 +10,7 @@ const Rutas = ({ role }) => {
    const navigate = useNavigate(); // Inicializa useNavigate
     
     // Estado inicial para las rutas
-    const [rutas, setRutas] = useState([   ]);
+    const [rutas, setRutas] = useState([]);
 
     // Estado para el formulario de nueva ruta
     const [nuevaRuta, setNuevaRuta] = useState({
@@ -30,6 +30,8 @@ const Rutas = ({ role }) => {
         setNuevaRuta({ ...nuevaRuta, [e.target.name]: e.target.value });
     };
 
+    const [guias, setGuias] = useState([]);
+
     // Función para agregar una nueva ruta
     async function agregarRuta() {
         
@@ -40,7 +42,9 @@ const Rutas = ({ role }) => {
             dificultad: nuevaRuta.dificultad,
             altura: nuevaRuta.distancia,
             descripcion: nuevaRuta.descripcion,
-            monto: nuevaRuta.monto, // Guardar el rol seleccionado
+            monto: nuevaRuta.monto,
+            fecha:nuevaRuta.fecha,
+            guia:nuevaRuta.guia, // Guardar el rol seleccionado
           });
             setRutas([...rutas,{ ...nuevaRuta, docId: docRef.id}]);
             setNuevaRuta({
@@ -52,9 +56,10 @@ const Rutas = ({ role }) => {
                 distancia: "",
                 decripcion: "",
                 monto:"",
+                fecha:"",
+                guia:"",
         }); // Limpiar el formulario
-
-        
+  
     };
 
     
@@ -91,8 +96,20 @@ const Rutas = ({ role }) => {
         setRutas(rutasList);
     };
 
+    // Función para obtener los guías desde Firestore
+    const fetchGuias = async () => {
+        const usersCollection = collection(db, "users");
+        const usersSnapshot = await getDocs(usersCollection);
+        const guiasList = usersSnapshot.docs
+            .map(doc => doc.data())
+            .filter(user => user.role === "guia");
+        setGuias(guiasList);
+    };
+
+
     // useEffect para obtener las rutas cuando el componente se monta
     useEffect(() => {
+        fetchGuias();
         fetchRutas();
     }, []);
 
@@ -128,6 +145,8 @@ const Rutas = ({ role }) => {
                                             <li>Ruta: {ruta.nombre}</li>
                                             <li>Descripcion: {ruta.descripcion}</li>
                                             <li>Monto:$ {ruta.monto}</li>
+                                            <li>Fecha: {ruta.fecha}</li>
+                                            <li>Guia: {ruta.guia}</li>
 
                                         </ul>
                                         <div className="text-center mt-3">
@@ -165,6 +184,7 @@ const Rutas = ({ role }) => {
                         eliminarRuta={eliminarRuta}
                         nuevaRuta={nuevaRuta}
                         handleChange={handleChange}
+                        guias={guias} 
                     />
                 </section>
             </div>

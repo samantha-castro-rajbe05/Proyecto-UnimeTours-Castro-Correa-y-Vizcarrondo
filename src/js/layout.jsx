@@ -144,7 +144,7 @@ const Layout = () => {
                     element={
                         <>
                             <Navbar/>
-                            <Rutas role="administrador" />
+                            <Rutas />
                             <Footer/>
                         </>
                     } 
