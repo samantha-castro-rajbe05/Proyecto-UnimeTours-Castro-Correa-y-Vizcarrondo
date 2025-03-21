@@ -1,18 +1,34 @@
 import React, { useState } from "react";
 import { FaCamera } from "react-icons/fa"; // Importa el ícono de cámara
+import { uploadImage } from "../../supabaseConfig"; 
 
 const Galeria = () => {
   const [images, setImages] = useState([]); // Estado para almacenar las imágenes
 
-  const handleAddImage = (event) => {
+  
+  const handleAddImage = async (event) => {
     const file = event.target.files[0];
     if (file) {
+    try {
+      // Llama a la función de Supabase para subir la imagen
+      const publicUrl = await uploadImage(file, "unimetours-fotos", "galeria-images");
+      
+      // Actualiza el estado con la URL pública de la imagen subida
       const reader = new FileReader();
-      reader.onload = (e) => {
-        setImages([...images, e.target.result]); // Añade la nueva imagen al estado
-      };
-      reader.readAsDataURL(file);
-    }
+       reader.onload = (e) => {
+      setImages([...images, publicUrl]);
+    } catch (error) {
+      console.error("Error al subir la imagen:", error);
+    }}
+    // const file = event.target.files[0];
+    // if (file) {
+    //   const reader = new FileReader();
+    //   reader.onload = (e) => {
+    //     setImages([...images, e.target.result]); // Añade la nueva imagen al estado
+    //   };
+    //   reader.readAsDataURL(file);
+   }   // }
+  
   };
 
   return (

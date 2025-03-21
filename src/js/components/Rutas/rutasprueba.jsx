@@ -66,7 +66,7 @@ const Rutas = ({ rol }) => {
     };
 
     // Renderizar la vista correspondiente según el rol del usuario
-    if (rol === "cliente") {
+    if (rol === "usuario") {
         return (
             <div>
                 <section>
