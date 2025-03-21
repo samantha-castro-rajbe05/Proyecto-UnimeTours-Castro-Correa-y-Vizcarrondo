@@ -1,23 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { RutasAdministrador } from "./RutasAdministrador.jsx"; // Asegúrate de que la ruta sea correcta
 import { useNavigate } from "react-router-dom"; // Importa useNavigate
+import {
+    db,
+  } from "../../firebaseConfig.js";
+import { doc, setDoc, getDocs, addDoc, collection, deleteDoc} from "firebase/firestore";
 
 const Rutas = ({ role }) => {
    const navigate = useNavigate(); // Inicializa useNavigate
     
     // Estado inicial para las rutas
-    const [rutas, setRutas] = useState([
-        {
-            imagen: "image0.png",
-            tiempo: "2-3 horas",
-            dificultad: "moderada",
-            altura: "1.500 m",
-            distancia: "5-6 km",
-            nombre: "Los Cujíes",
-            descripcion:"",
-            monto:"10",
-        },
-    ]);
+    const [rutas, setRutas] = useState([   ]);
 
     // Estado para el formulario de nueva ruta
     const [nuevaRuta, setNuevaRuta] = useState({
@@ -38,24 +31,43 @@ const Rutas = ({ role }) => {
     };
 
     // Función para agregar una nueva ruta
-    const agregarRuta = () => {
-        setRutas([...rutas, nuevaRuta]);
-        setNuevaRuta({
-            nombre: "",
-            imagen: "",
-            tiempo: "",
-            dificultad: "",
-            altura: "",
-            distancia: "",
-            decripcion: "",
-            monto:"",
+    async function agregarRuta() {
+        
+        const docRef =await addDoc(collection(db, "rutas"), {
+            nombre: nuevaRuta.nombre,
+            imagen: nuevaRuta.imagen,
+            tiempo: nuevaRuta.tiempo,
+            dificultad: nuevaRuta.dificultad,
+            altura: nuevaRuta.distancia,
+            descripcion: nuevaRuta.descripcion,
+            monto: nuevaRuta.monto, // Guardar el rol seleccionado
+          });
+            setRutas([...rutas,{ ...nuevaRuta, docId: docRef.id}]);
+            setNuevaRuta({
+                nombre: "",
+                imagen: "",
+                tiempo: "",
+                dificultad: "",
+                altura: "",
+                distancia: "",
+                decripcion: "",
+                monto:"",
         }); // Limpiar el formulario
+
+        
     };
 
+    
+
     // Función para eliminar una ruta
-    const eliminarRuta = (index) => {
-        const nuevasRutas = rutas.filter((_, i) => i !== index);
-        setRutas(nuevasRutas);
+    const eliminarRuta = async (index) => {
+        const ruta = rutas[index];
+        if (ruta.docId) {
+            await deleteDoc(doc(db, "rutas", ruta.docId));
+            const nuevasRutas = rutas.filter((_, i) => i !== index);
+            setRutas(nuevasRutas);
+        }
+
     };
 
     // Función para simular la reserva de una ruta
@@ -71,9 +83,22 @@ const Rutas = ({ role }) => {
         }
     };
 
+    // Función para obtener las rutas desde Firestore
+    const fetchRutas = async () => {
+        const rutasCollection = collection(db, "rutas");
+        const rutasSnapshot = await getDocs(rutasCollection);
+        const rutasList = rutasSnapshot.docs.map(doc => ({ ...doc.data(), docId: doc.id}));
+        setRutas(rutasList);
+    };
+
+    // useEffect para obtener las rutas cuando el componente se monta
+    useEffect(() => {
+        fetchRutas();
+    }, []);
+
     // Renderizar la vista correspondiente según el rol del usuario
 
-    if (rol === "usuario") {
+    if (role === "usuario") {
 
         return (
             <div>
@@ -106,9 +131,7 @@ const Rutas = ({ role }) => {
 
                                         </ul>
                                         <div className="text-center mt-3">
-                                           {/*<button className="bg-[#96A89C] text-white font-semibold py-2 px-6 rounded-lg hover:bg-[#143A27] transition duration-300 mr-2" onClick={() => (window.location.href = "/verruta")}>
-                                                Más información
-                                            </button>*/}
+                                          
                                             <button className="bg-[#96A89C] text-white font-semibold py-2 px-6 rounded-lg hover:bg-[#143A27] transition duration-300" onClick={() => reservarRuta(index)}>
                                                 Reservar
                                             </button>

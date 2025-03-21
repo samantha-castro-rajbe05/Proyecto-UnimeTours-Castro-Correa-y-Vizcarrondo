@@ -144,15 +144,12 @@ const Layout = () => {
                     element={
                         <>
                             <Navbar/>
-                            <Rutas rol="cliente" />
-                            <Rutas role="cliente" />
+                            <Rutas role="administrador" />
                             <Footer/>
                         </>
                     } 
                 />
 
-                <Route path="/paypal" element={<BotonPaypal />} />
-                <Route path="/exitosa" element={<Exitosa />} />
                 <Route 
                     path="/paypal" 
                     element={<BotonPaypal />} 
