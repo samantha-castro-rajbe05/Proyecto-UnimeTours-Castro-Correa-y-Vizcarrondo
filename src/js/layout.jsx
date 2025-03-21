@@ -85,7 +85,8 @@ const Layout = () => {
                         </>
                     }
                 />
-               <Route
+                <Route
+              
                     path="/verruta"
                     element={
                         <>
@@ -94,7 +95,8 @@ const Layout = () => {
                             <Footer />
                         </>
                     }
-                /> 
+                />
+                
                 <Route
                     path="/feedback"
                     element={
@@ -142,12 +144,15 @@ const Layout = () => {
                     element={
                         <>
                             <Navbar/>
+                            <Rutas rol="cliente" />
                             <Rutas role="cliente" />
                             <Footer/>
                         </>
                     } 
                 />
 
+                <Route path="/paypal" element={<BotonPaypal />} />
+                <Route path="/exitosa" element={<Exitosa />} />
                 <Route 
                     path="/paypal" 
                     element={<BotonPaypal />} 
@@ -164,6 +169,7 @@ const Layout = () => {
 
                 />
 
+                
                 <Route path ="/noencontrado" element = {<NotFound/>}/>
                 <Route path="/admin" element={<AdminRoute element={<AdminPage />} />} />
 
