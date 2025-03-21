@@ -75,11 +75,6 @@ const Signup = () => {
         );
       }
 
-      
-      if (email === "samantha.castro@correo.unimet.edu.ve") {
-        role = "admin";
-      }
-
       // Guardar datos del usuario en Firestore
       await setDoc(doc(db, "users", user.uid), {
         nombre: nombre,
