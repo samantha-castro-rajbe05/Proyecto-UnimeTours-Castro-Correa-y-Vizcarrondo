@@ -92,7 +92,7 @@ if (role === "admin") {
     <div className="flex justify-center items-center mt-8 mb-8 space-x-4">
       <button
         className="bg-[#143A27] text-white font-semibold py-2 px-6 rounded-lg hover:bg-[#96A89C] transition duration-300"
-        onClick={() => navigate("/cambiar-role")}
+        
       >
         Administrar rutas
       </button>
