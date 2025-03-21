@@ -4,7 +4,9 @@ import "/src/css/App.css";
 
 export const App = () => {
     const navigate = useNavigate();
+
     let [role, setRole] = useState("usuario");  // Aquí usamos useState
+
 
     useEffect(() => {
         navigate("/");  // Redirige a la página principal
