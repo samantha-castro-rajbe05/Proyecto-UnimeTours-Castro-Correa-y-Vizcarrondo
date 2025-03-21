@@ -31,8 +31,12 @@ export const App = () => {
                     <div className="w-1/2">
                         <h2 className="text-5xl font-semibold font-serif roboto-subtitulos text-[#143A27] px-15 pt-20 pb-5">Conócenos</h2>
                         <p className="font-light font-serif roboto-parrafos pl-15"> Somos UnimeTours, una página hecha por estudiantes de la Universidad Metropolitana que te permite seguir tu espíritu aventurero y facilitarte el reservar paseos de senderismo en el Parque Nacional Waraira Repano, mejor conocido como Cerro el Ávila, que se encuentra en Caracas, Venezuela.</p>
-                        <p className= "font-light font-serif roboto-parrafos pl-15"> Buscamos facilitar a la comunidad unimetana el acceso seguro y sencillo a rutas de senderismo en el Waraira Repano, impulsando su espíritu aventurero y conexión con la naturaleza. </p>
-                        <p className= "font-light font-serif roboto-parrafos pl-15"> Con el fin de inspirar a la comunidad unimetana a explorar y disfrutar el Waraira Repano, formando una comunidad unida por el amor a la naturaleza y creando experiencias inolvidables. </p>
+                        <div className="font-light font-serif roboto-parrafos pl-15">
+                            <p> <strong>Mision:</strong> Buscamos facilitar a la comunidad unimetana el acceso seguro y sencillo a rutas de senderismo en el Waraira Repano, impulsando su espíritu aventurero y conexión con la naturaleza. </p>
+                        </div>
+                        <div className= "font-light font-serif roboto-parrafos pl-15">
+                            <p> <strong>Vision:</strong> Con el fin de inspirar a la comunidad unimetana a explorar y disfrutar el Waraira Repano, formando una comunidad unida por el amor a la naturaleza y creando experiencias inolvidables. </p>
+                        </div>
                     </div>
                 </div>
             </section>

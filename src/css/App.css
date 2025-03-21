@@ -26,3 +26,17 @@
       "wdth" 100;
     text-align: justify;
   }
+
+  .paypal-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10vh; /* Hace que el contenedor ocupe toda la altura de la ventana */
+    margin: 10; /* Elimina márgenes extraños */
+    text-align: center;
+}
+
+.paypal-container button {
+  transform: scale(5); /* Escala el tamaño del botón */
+  transform-origin: center; /* Asegura que el botón se escale desde el centro */
+}
