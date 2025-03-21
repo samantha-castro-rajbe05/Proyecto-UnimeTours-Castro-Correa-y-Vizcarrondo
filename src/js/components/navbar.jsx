@@ -172,6 +172,7 @@ export const Navbar = () => {
               <a
                 href="#blog"
                 className="text-[#D4D9D8] hover:text-gray-400"
+                onClick={() => navigate("/cambiar-role")}
               >
                 Administrar guías
               </a>
