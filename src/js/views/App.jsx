@@ -119,11 +119,11 @@ if (role === "admin") {
                     </div>
                 </div>
             </section>
-            <section className="bg-[#96A89C]">
+            <section >
             <h2 className="text-6xl font-semibold font-serif roboto-subtitulos text-[#143A27] text-center p-10">¡Bienvenido guía!</h2>
             </section>
             <section>
-                <div className="flex w-full  bg-[#96A89C]">
+                <div className="flex w-full">
                     
                     <div>
                         <img src="/unimetours-logo-landing-page.png" className="w-full pl-30 py-15" alt="UnimeTours Logo"/>
@@ -145,8 +145,8 @@ if (role === "admin") {
 
 
             <section>
-                <div className="panel-image-content-reverse pl-15 py-10 px-20 pt-10">
-                <div className="flex w-full">
+                <div className="panel-image-content-reverse pl-15 py-10 px-20 pt-10 bg-[#a4b9ab]">
+                <div className="flex w-full ">
                    
                     <div className="w-1/2">
                         <h2 className="text-heading text-5xl font-semibold font-serif roboto-subtitulos text-[#143A27] px-15 pb-5 pt-20">Blogs</h2>
@@ -170,7 +170,7 @@ if (role === "admin") {
 
 
             <section>
-                <div className="card-grid-reviews w-full pl-30 py-20 px-30 pt-5 pb-10 bg-[#96A89C] rounded-lg shadow-lg">
+                <div className="card-grid-reviews w-full pl-30 py-20 px-30 pt-5 pb-10  rounded-lg shadow-lg">
                     <div className="text-heading">
                         <div className="text-heading text-5xl font-semibold font-serif roboto-subtitulos text-[#143A27] px-15 pb-5 pt-10">
                         Feedbacks
@@ -262,7 +262,7 @@ if (role === "admin") {
             </section>
                
 
-            <section>
+            <section className="bg-[#a4b9ab]">
                 <div>
                 <div className="text-heading text-5xl font-semibold font-serif roboto-subtitulos text-[#143A27] px-30 pb-5 pt-10">Mapa</div>
                 </div>
