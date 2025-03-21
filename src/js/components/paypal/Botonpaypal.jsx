@@ -1,6 +1,8 @@
 // BotonPaypal.jsx
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../navbar";
+import Footer from "../footer"
 
 const PaypalButtonComponent = () => {
     const navigate = useNavigate();
@@ -46,9 +48,37 @@ const PaypalButtonComponent = () => {
     };
 
     return (
-        <PayPalScriptProvider options={initialOptions}>
-            <PayPalButtons createOrder={createOrder} onApprove={onApprove} />
-        </PayPalScriptProvider>
+        <div>
+            <section>
+                <Navbar/>
+            </section>
+                
+            <section>
+                <div className="font-serif relative h-[450px] bg-cover bg-center pb-10" style={{ backgroundImage: "url('/UnimeTours-landing-page.jpg')" }}>
+                    <div className="relative z-10 flex justify-center items-center h-full pt-28">
+                        <h2 className="text-7xl text-white font-bold font-serif montserrat">PAGO RUTAS</h2>
+                    </div>
+                </div>
+            </section>
+
+
+            <section> 
+               
+            <h2 className=" text-center text-5xl text-[#143A27] font-bold font-serif roboto pt-10 pb-10">Reserva tu ruta realizando el pago!!</h2>
+           
+                <div className="paypal-container">
+                <PayPalScriptProvider options={initialOptions}>
+                <PayPalButtons createOrder={createOrder} onApprove={onApprove} />
+                </PayPalScriptProvider>
+                </div>
+            </section>
+            <section>
+                <div className=" pt-10"></div>
+                <Footer/>
+            </section>
+            
+     
+        </div>
     );
 };
 
