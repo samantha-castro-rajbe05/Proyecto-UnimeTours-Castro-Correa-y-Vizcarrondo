@@ -17,7 +17,7 @@ const PaypalButtonComponent = () => {
     }
 
     const initialOptions = {
-        "client-id": "YOUR_CLIENT_ID",
+        "client-id": "AYhEeTt517dzRSepeggO1eyJeeXC6ieC9V1te4yN0NRR6ePWDGIW2AGxuDFkJ1w89uBzV1g1M91z76IV",
         currency: "USD",
         intent: "capture",
     };
