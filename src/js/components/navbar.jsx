@@ -213,7 +213,7 @@ export const Navbar = () => {
                   <>
                     <button
                       onClick={handleEditProfileClick}
-                      className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-200"
+                      className=" block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-200"
                     >
                       Editar perfil
                     </button>

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { RutasAdministrador } from "./RutasAdministrador.jsx"; // Asegúrate de que la ruta sea correcta
-import { useNavigate } from "react-router-dom"; // Importa useNavigate
+import { useNavigate, useSearchParams } from "react-router-dom"; // Importa useSearchParams
 import { db, auth } from "../../firebaseConfig.js";
 import {
   doc,
@@ -12,17 +11,22 @@ import {
   where,
 } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
+import RutaInfo from "./ruta.jsx"; 
+import { RutasAdministrador } from "./RutasAdministrador.jsx";
+import BuscarRuta from "../buscarRutas/buscar-rutas.jsx";
 
 const Rutas = () => {
-  const navigate = useNavigate(); // Inicializa useNavigate
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  // Leemos el query parameter "q". Si no existe, se usa cadena vacía.
+  const queryParam = searchParams.get("q") || "";
+
   const [user, loadingAuth] = useAuthState(auth);
   const [role, setRole] = useState("");
   const [loading, setLoading] = useState(true);
-
-  // Estado inicial para las rutas
   const [rutas, setRutas] = useState([]);
 
-  // Estado para el formulario de nueva ruta
+  // Estado para el formulario de nueva ruta (se conserva sin cambios)
   const [nuevaRuta, setNuevaRuta] = useState({
     imagen: "",
     tiempo: "",
@@ -34,12 +38,12 @@ const Rutas = () => {
     descripcion: "",
   });
 
+  const [guias, setGuias] = useState([]);
+
   // Función para manejar los cambios en el formulario
   const handleChange = (e) => {
     setNuevaRuta({ ...nuevaRuta, [e.target.name]: e.target.value });
   };
-
-  const [guias, setGuias] = useState([]);
 
   // Función para agregar una nueva ruta
   async function agregarRuta() {
@@ -48,11 +52,11 @@ const Rutas = () => {
       imagen: nuevaRuta.imagen,
       tiempo: nuevaRuta.tiempo,
       dificultad: nuevaRuta.dificultad,
-      altura: nuevaRuta.distancia,
+      altura: nuevaRuta.distancia, // Notar que en Firestore la propiedad "altura" viene en este caso de "nuevaRuta.distancia"
       descripcion: nuevaRuta.descripcion,
       monto: nuevaRuta.monto,
       fecha: nuevaRuta.fecha,
-      guia: nuevaRuta.guia, // Se guarda el nombre del guía asignado
+      guia: nuevaRuta.guia,
     });
     setRutas([...rutas, { ...nuevaRuta, docId: docRef.id }]);
     setNuevaRuta({
@@ -80,10 +84,11 @@ const Rutas = () => {
   };
 
   // Función para simular la reserva de una ruta
-  const reservarRuta = (index) => {
+  const reservarRuta = (index, e) => {
+    // Evitamos que el onClick de la tarjeta se dispare cuando se presiona el botón
+    e.stopPropagation();
     if (rutas && rutas[index]) {
       const rutaSeleccionada = rutas[index];
-      // Guardamos la ruta en localStorage para usarla luego en /paypal
       localStorage.setItem("rutaSeleccionada", JSON.stringify(rutaSeleccionada));
       navigate("/paypal");
     } else {
@@ -91,11 +96,7 @@ const Rutas = () => {
     }
   };
 
-  /* 
-    Agregado: Función para obtener las rutas asignadas
-    al guía actual utilizando getDocs y query con where.
-    Esta función filtra las rutas cuyo campo "guia" coincida con el nombre del guía.
-  */
+  /* Función para obtener las rutas asignadas si el usuario es guía. Se filtra por el nombre del guía */
   const fetchRutasParaGuia = async (nombreGuia) => {
     try {
       const rutasRef = collection(db, "rutas");
@@ -140,20 +141,18 @@ const Rutas = () => {
       const userData = querySnapshot.docs[0].data();
       setRole(userData.role || "usuario");
 
-      // Agregado: Si el rol es "guia", se llama a fetchRutasParaGuia con el nombre del guía,
-      // de modo que solo se carguen las rutas asignadas a ese guía.
       if (userData.role === "guia") {
         fetchRutasParaGuia(userData.nombre);
       } else {
-        fetchRutas(); // Para "usuario" y "admin" se cargan todas las rutas.
+        fetchRutas();
       }
     } else {
       setRole("usuario");
+      fetchRutas();
     }
     setLoading(false);
   };
 
-  // useEffect para obtener el rol del usuario, los guías y en función del rol, las rutas.
   useEffect(() => {
     if (user) {
       fetchUserRole(user.uid);
@@ -167,15 +166,18 @@ const Rutas = () => {
     return <div>Cargando...</div>;
   }
 
-  // Renderizado según el rol del usuario
+  // Renderizado para el rol "usuario"
   if (role === "usuario") {
     return (
       <div>
         <section>
           <div
-            className="font-serif relative h-[450px] bg-cover bg-center"
-            style={{ backgroundImage: "url('/UnimeTours-landing-page.jpg')" }}
+            className="font-serif relative h-[450px] bg-cover bg-center "
+            style={{ backgroundImage: "url('/UnimeTours-landing-page.jpg')" }} 
           >
+            <div className="absolute top-10 left-10 z-50">
+              <BuscarRuta />
+            </div>
             <div className="relative z-10 flex justify-center items-center h-full pt-28">
               <h2 className="text-7xl text-white font-bold font-serif montserrat">
                 VER RUTAS
@@ -189,43 +191,52 @@ const Rutas = () => {
           </section>
         </section>
         <section>
-          <div className="flex flex-wrap gap-4 justify-center">
-            {rutas.map((ruta, index) => (
-              <div
-                key={index}
-                className="card bg-[#D4D9D8] shadow-md rounded-lg p-4 w-80 transform transition-all duration-300 hover:scale-105"
-              >
-                <img
-                  className="image w-full h-40 object-cover rounded-t-lg"
-                  src={ruta.imagen}
-                  alt={ruta.nombre}
-                />
-                <div className="body p-4">
-                  <div className="text">
-                    <h3 className="text-2xl font-bold font-serif roboto-parrafos text-[#143A27] mb-2">
-                      {ruta.nombre}
-                    </h3>
-                    <ul className="details-list font-light font-serif roboto-parrafos text-sm text-[#143A27] mb-4">
-                      <li>Dificultad: {ruta.dificultad}</li>
-                      <li>Altura: {ruta.altura}</li>
-                      <li>Distancia: {ruta.distancia}</li>
-                      <li>Tiempo: {ruta.tiempo}</li>
-                      <li>Descripción: {ruta.descripcion}</li>
-                      <li>Monto: ${ruta.monto}</li>
-                      <li>Fecha: {ruta.fecha}</li>
-                    </ul>
-                    <div className="text-center mt-3">
-                      <button
-                        className="bg-[#96A89C] text-white font-semibold py-2 px-6 rounded-lg hover:bg-[#143A27] transition duration-300"
-                        onClick={() => reservarRuta(index)}
-                      >
-                        Reservar
-                      </button>
+          <div className="flex flex-wrap gap-4 justify-center pb-20">
+            {rutas.map((ruta, index) => {
+              // Se determina si la ruta debe resaltarse según el queryParam
+              const highlight =
+                queryParam &&
+                ruta.nombre.toLowerCase().includes(queryParam.toLowerCase());
+              return (
+                <div
+                  key={ruta.docId}
+                  className={`card bg-[#D4D9D8] shadow-md rounded-lg p-4 w-80 transform transition-all duration-300 hover:scale-105 cursor-pointer ${
+                    highlight ? "border-4 border-[#143A27]" : ""
+                  }`}
+                  
+                >
+                  <img
+                    className="image w-full h-40 object-cover rounded-t-lg"
+                    src={ruta.imagen}
+                    alt={ruta.nombre}
+                  />
+                  <div className="body p-4">
+                    <div className="text">
+                      <h3 className="text-2xl font-bold font-serif roboto-parrafos text-[#143A27] mb-2">
+                        {ruta.nombre}
+                      </h3>
+                      <ul className="details-list font-light font-serif roboto-parrafos text-sm text-[#143A27] mb-4">
+                        <li>Dificultad: {ruta.dificultad}</li>
+                        <li>Altura: {ruta.altura}</li>
+                        <li>Distancia: {ruta.distancia}</li>
+                        <li>Tiempo: {ruta.tiempo}</li>
+                        <li>Descripción: {ruta.descripcion}</li>
+                        <li>Monto: ${ruta.monto}</li>
+                        <li>Fecha: {ruta.fecha}</li>
+                      </ul>
+                      <div className="text-center mt-3">
+                        <button
+                          className="bg-[#96A89C] text-white font-semibold py-2 px-6 rounded-lg hover:bg-[#143A27] transition duration-300"
+                          onClick={(e) => reservarRuta(index, e)}
+                        >
+                          Reservar
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+  })}
           </div>
         </section>
       </div>
@@ -272,6 +283,9 @@ const Rutas = () => {
             className="font-serif relative h-[450px] bg-cover bg-center"
             style={{ backgroundImage: "url('/UnimeTours-landing-page.jpg')" }}
           >
+            <div className="absolute top-10 left-10 z-50">
+                        <BuscarRuta />
+            </div>
             <div className="relative z-10 flex justify-center items-center h-full pt-28">
               <h2 className="text-7xl text-white font-bold font-serif montserrat">
                 TUS RUTAS ASIGNADAS
@@ -286,11 +300,19 @@ const Rutas = () => {
         </section>
         <section className="p-20">
           <h3 className="text-3xl font-bold mb-4">Lista de Rutas</h3>
-          <div className="flex flex-wrap gap-4">
-            {rutas.map((ruta, index) => (
-              <div key={index} className="card bg-[#D4D9D8] shadow-md rounded-lg p-4 w-80">
+          <div className="flex flex-wrap gap-4 pb-20">
+            {rutas.map((ruta, index) => {
+              const highlight =
+              queryParam &&
+              ruta.nombre.toLowerCase().includes(queryParam.toLowerCase());
+            return (
+                
+              <div key={index} className={`card bg-[#D4D9D8] shadow-md rounded-lg p-4 w-80 transform transition-all duration-300 hover:scale-105 cursor-pointer ${
+                highlight ? "border-4 border-[#143A27]" : ""
+              }`}>
                 <img
-                  className="image w-full h-40 object-cover rounded-t-lg"
+                  className="image w-full h-40 object-cover rounded-t-lg" 
+                  
                   src={ruta.imagen}
                   alt={ruta.nombre}
                 />
@@ -311,7 +333,8 @@ const Rutas = () => {
                   </div>
                 </div>
               </div>
-            ))}
+              );
+            })}
           </div>
         </section>
       </div>

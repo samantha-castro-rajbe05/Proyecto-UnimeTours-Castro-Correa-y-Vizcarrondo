@@ -23,6 +23,8 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "./firebaseConfig";
 import { doc, getDoc } from "firebase/firestore";
 import RoleSwitcher from "./components/cambiarRole/cambiarRole.jsx";
+import BuscarRuta from "./components/buscarRutas/buscar-rutas.jsx";
+import RutaInfo from "./components/Rutas/ruta.jsx";
 
 const AdminRoute = ({ element }) => {
   const [user] = useAuthState(auth);
@@ -54,6 +56,7 @@ const Layout = () => {
                     element={
                         <>
                             <Navbar />
+                            
                             <App />
                             <Footer />
                         </>
@@ -180,7 +183,15 @@ const Layout = () => {
                             <RoleSwitcher/>
                             <Footer/>
                     </>
+
+                    
                 }
+
+                />
+
+                <Route 
+                    path = "/ruta-info"
+                    element ={<RutaInfo/>}
 
                 />
 

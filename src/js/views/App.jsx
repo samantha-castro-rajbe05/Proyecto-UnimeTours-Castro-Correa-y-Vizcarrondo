@@ -11,6 +11,9 @@ import { useAuthState } from "react-firebase-hooks/auth";
 // Importa tu configuración/credenciales de Firebase
 import {auth, db} from "../firebaseConfig"; // Ajusta la ruta según tu estructura
 import "/src/css/App.css";
+import BuscarRuta from "../components/buscarRutas/buscar-rutas";
+
+
 
 // Inicializar Firestore
 
@@ -114,6 +117,9 @@ if (role === "admin") {
         <div className="bg-[#c7e0cd]">
             <section> {/* imagen superior avila + titulo */}
                 <div className="font-serif relative h-[450px] bg-cover bg-center " style={{ backgroundImage: "url('/UnimeTours-landing-page.jpg')" }}>
+                <div className="absolute top-10 left-10 z-50">
+                        <BuscarRuta />
+                    </div>
                     <div className="relative z-10 flex justify-center items-center h-full pt-28">
                         <h2 className="text-7xl text-white font-bold font-serif montserrat">UnimeTours</h2>
                     </div>
@@ -293,6 +299,10 @@ if (role === "admin") {
         <div>
             <section> {/* imagen superior avila + titulo */}
                 <div className="font-serif relative h-[450px] bg-cover bg-center" style={{ backgroundImage: "url('/UnimeTours-landing-page.jpg')" }}>
+                    <div className="absolute top-10 left-10 z-50">
+                        <BuscarRuta />
+                    </div>
+                    
                     <div className="relative z-10 flex justify-center items-center h-full pt-28">
                         <h2 className="text-7xl text-white font-bold font-serif montserrat">UnimeTours</h2>
                     </div>
