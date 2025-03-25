@@ -17,6 +17,7 @@ import Login from "./login.jsx";
 import Label from "./label.jsx";
 import { PhotoIcon } from "@heroicons/react/24/solid";
 
+// (Las funciones fbSignUp y googleSignUp no se utilizan, pero se dejan por compatibilidad)
 const fbSignUp = async () => {
   const fbUser = await signInWithPopup(auth, providerFacebook);
   return fbUser;
@@ -40,12 +41,29 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
 
+  // Regex para comprobar que el correo sea de dominio permitido
+  const allowedEmailRegex = /^[a-zA-Z0-9._%+-]+@(correo\.unimet\.edu\.ve|unimet\.edu\.ve)$/;
+
   const handleSignup = async (e) => {
     e.preventDefault();
     setLoading(true);
     const formData = new FormData(e.target);
     const { nombre, apellido, telefono, email, contraseña } =
       Object.fromEntries(formData);
+
+    // Validar que el email pertenezca a los dominios permitidos
+    if (!allowedEmailRegex.test(email)) {
+      setErrMsg("El correo electrónico debe ser @correo.unimet.edu.ve o @unimet.edu.ve.");
+      setLoading(false);
+      return;
+    }
+    
+    // Validar que no existan errores en teléfono y email
+    if (telefonoError !== "" || emailError !== "") {
+      setErrMsg("Por favor, corrija los errores del formulario antes de continuar.");
+      setLoading(false);
+      return;
+    }
 
     // Validar la longitud de la contraseña
     if (contraseña.length < 6) {
@@ -65,7 +83,7 @@ const Signup = () => {
       );
       user = userCredential.user;
 
-      // Subir foto de perfil a Supabase
+      // Subir la foto de perfil a Supabase (si se seleccionó)
       let avatarUrl = "";
       if (avatar.file) {
         avatarUrl = await uploadImage(
@@ -74,8 +92,6 @@ const Signup = () => {
           `public/${user.uid}`
         );
       }
-
-      
 
       // Guardar datos del usuario en Firestore
       await setDoc(doc(db, "users", user.uid), {
@@ -134,7 +150,7 @@ const Signup = () => {
       setTelefonoError("");
     } else {
       setTelefonoError(
-        "El número de teléfono debe comenzar con +58 seguido de 414, 412, 424, 212, 416, o 426 y contener 7 dígitos después del guion."
+        "El número de teléfono debe comenzar con +58 seguido de 414, 412, 424, 212, 416 o 426 y contener 7 dígitos después del guion."
       );
     }
   };
@@ -143,12 +159,9 @@ const Signup = () => {
     const value = e.target.value;
     setEmail(value);
 
-    const regex =
-      /^[a-zA-Z0-9._%+-]+@(correo\.unimet\.edu\.ve|unimet\.edu\.ve)$/;
-
     if (value === "") {
       setEmailError("");
-    } else if (regex.test(value)) {
+    } else if (allowedEmailRegex.test(value)) {
       setEmailError("");
     } else {
       setEmailError(
@@ -156,11 +169,20 @@ const Signup = () => {
       );
     }
   };
-  
+
   const handleFacebookSignUp = async () => {
     try {
       setLoading(true);
       const fbUser = await signInWithPopup(auth, providerFacebook);
+
+      // Validar que el email del usuario de Facebook pertenezca a los dominios permitidos
+      if (!allowedEmailRegex.test(fbUser.user.email)) {
+        setErrMsg("El correo electrónico debe ser @correo.unimet.edu.ve o @unimet.edu.ve.");
+        setLoading(false);
+        await auth.signOut();
+        return;
+      }
+
       const userDoc = await getDoc(doc(db, "users", fbUser.user.uid));
       if (userDoc.exists()) {
         setLoading(false);
@@ -177,7 +199,7 @@ const Signup = () => {
         });
         setLoading(false);
         setLogin(true);
-        navigate('/');
+        navigate("/");
       }
     } catch (error) {
       setLoading(false);
@@ -190,6 +212,15 @@ const Signup = () => {
     try {
       setLoading(true);
       const googleUser = await signInWithPopup(auth, providerGoogle);
+
+      // Validar que el email del usuario de Google pertenezca a los dominios permitidos
+      if (!allowedEmailRegex.test(googleUser.user.email)) {
+        setErrMsg("El correo electrónico debe ser @correo.unimet.edu.ve o @unimet.edu.ve.");
+        setLoading(false);
+        await auth.signOut();
+        return;
+      }
+
       const userDoc = await getDoc(doc(db, "users", googleUser.user.uid));
       if (userDoc.exists()) {
         setLoading(false);
@@ -206,7 +237,7 @@ const Signup = () => {
         });
         setLoading(false);
         setLogin(true);
-        navigate('/');
+        navigate("/");
       }
     } catch (error) {
       setLoading(false);
@@ -230,7 +261,7 @@ const Signup = () => {
                 Registrarte en UnimeTours
               </h2>
             </div>
-            <div className="border-b border[#143A27]/20 pb-5">
+            <div className="border-b border-[#143A27]/20 pb-5">
               <div className="mt-5 grid grid-cols-1 gap-y-6">
                 <div>
                   <Label title="Nombre" htmlFor="nombre" />
@@ -321,7 +352,7 @@ const Signup = () => {
                             </label>
                           </div>
                           <p className="text-[#6D706F] text-xs leading-5">
-                            PNG, JPG hasta 10MB{" "}
+                            PNG, JPG hasta 10MB
                           </p>
                         </div>
                       </div>
